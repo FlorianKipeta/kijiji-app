@@ -44,13 +44,7 @@ Route::get('/dashboard', DashboardController::class)->middleware(['auth', 'verif
 
 Route::middleware(['auth', MustChangePassword::class])->group(function () {
 
-    Route::resource('tenders', TenderController::class)->only(['index', 'show', 'store', 'update', 'destroy', 'create']);
-    Route::resource('tenders.note', NoteController::class)->shallow()->only(['store', 'destroy']);
-    Route::resource('tenders.document', DocumentController::class)->shallow()->only(['store', 'destroy']);
     Route::resource('customers', CustomerController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
-    Route::resource('departments', DepartmentController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
-    Route::resource('document-types', DocumentTypeController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::get('view-document/{document}', [DocumentController::class, 'viewDocument'])->name('view-document');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -59,8 +53,6 @@ Route::middleware(['auth', MustChangePassword::class])->group(function () {
     Route::get('notifications', [NotificationAPIController::class, 'index'])->name('notifications');
     Route::post('notifications/{id}/mark-as-read', [NotificationAPIController::class, 'markAsRead'])->name('notifications.read');
     Route::post('notifications/mark-all-as-read', [NotificationAPIController::class, 'markAllAsRead'])->name('notifications.readAll');
-    Route::get('notifications/settings', [NotificationSettingController::class, 'index'])->name('notifications.settings');
-    Route::post('notifications/settings', [NotificationSettingController::class, 'store'])->name('notifications.settings.store');
 
     /*
     |--------------------------------------------------------------------------------------------------
@@ -85,13 +77,6 @@ Route::middleware(['auth', MustChangePassword::class])->group(function () {
         Route::get('users', UserAPIController::class)->name('users');
         Route::get('users-with-role/{role}', [UserAPIController::class, 'usersWithRole'])->name('users-with-role');
         Route::get('roles', RoleAPIController::class)->name('roles');
-
-        Route::get('tenders', TenderAPIController::class)->name('tenders');
-        Route::get('customers', CustomerAPIController::class)->name('customers');
-        Route::get('departments', DepartmentAPIController::class)->name('departments');
-        Route::get('document-types', DocumentTypeAPIController::class)->name('document-types');
-        Route::get('statistics', TenderStatsAPIController::class)->name('statistics');
-
     });
 });
 

@@ -14,15 +14,15 @@ export const routes = [
         Icon: () => (<ChartPieIcon className="w-5 h-5 text-sky-200"/>),
         permission: 'canViewDashboard',
     },
-    {
-        name: 'Tenders',
-        Icon: () => (<Bars3Icon className="w-5 h-5 text-sky-200"/>),
-        routes: [
-            {name: 'Tenders', url: route('tenders.index'), permission: 'canViewTenders'},
-            {name: 'Customers', url: route('customers.index'), permission: 'canViewCustomers'},
-            {name: 'Notifications', url: route('notifications.settings'), permission: 'canViewNotificationSettings'},
-        ]
-    },
+    // {
+    //     name: 'Tenders',
+    //     Icon: () => (<Bars3Icon className="w-5 h-5 text-sky-200"/>),
+    //     routes: [
+    //         {name: 'Tenders', url: route('tenders.index'), permission: 'canViewTenders'},
+    //         {name: 'Customers', url: route('customers.index'), permission: 'canViewCustomers'},
+    //         {name: 'Notifications', url: route('notifications.settings'), permission: 'canViewNotificationSettings'},
+    //     ]
+    // },
     // {
     //     name: 'Whatsapp',
     //     Icon: () => (<Bars3Icon className="w-5 h-5 text-sky-200"/>),
@@ -39,8 +39,6 @@ export const routes = [
         name: 'Administration',
         Icon: () => (<UserGroupIcon className="w-5 h-5 text-sky-200"/>),
         routes: [
-            {name: 'Departments', url: route('departments.index'), permission: 'canViewDepartments'},
-            {name: 'Document Types', url: route('document-types.index'), permission: 'canViewDocumentTypes'},
             {name: 'Users accounts', url: route('users.index'), permission: 'canViewUsers'},
             {name: 'Roles', url: route('roles.index'), permission: 'canViewRoles'},
         ]
