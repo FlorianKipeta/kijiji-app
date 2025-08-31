@@ -10,14 +10,10 @@ class HandleInertiaRequests extends Middleware
 {
     private const MENU_PERMISSIONS = [
         'view dashboard',
-        'view tenders',
-        'view customers',
-        'view departments',
-        'view document types',
+        'view projects',
         'view roles',
         'view users',
         'view user settings',
-        'view notification settings',
     ];
 
     /**

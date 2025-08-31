@@ -14,6 +14,12 @@ export const routes = [
         Icon: () => (<ChartPieIcon className="w-5 h-5 text-slate-200"/>),
         permission: 'canViewDashboard',
     },
+    {
+        name: 'AI Projects',
+        url: route('projects.index'),
+        Icon: () => (<Bars3Icon className="w-5 h-5 text-slate-200"/>),
+        permission: 'canViewProjects',
+    },
     // {
     //     name: 'Tenders',
     //     Icon: () => (<Bars3Icon className="w-5 h-5 text-slate-200"/>),

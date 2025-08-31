@@ -21,6 +21,7 @@ use App\Http\Controllers\DocumentTypeController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\NotificationSettingController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TenderController;
 use App\Http\Middleware\MustChangePassword;
 use Illuminate\Support\Facades\Route;
@@ -44,6 +45,7 @@ Route::get('/dashboard', DashboardController::class)->middleware(['auth', 'verif
 
 Route::middleware(['auth', MustChangePassword::class])->group(function () {
 
+    Route::resource('projects', ProjectController::class)->except(['create', 'edit']);
     Route::resource('customers', CustomerController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
