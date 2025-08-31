@@ -31,8 +31,8 @@ const Sidebar = () => {
 
             </div>
 
-            <div className={`${showSidebar ? 'translate-x-0 ease-out w-60 ' : '-translate-x-full ease-in w-0'} fixed z-30 inset-y-0 left-0 transition duration-300 transform bg-gradient-to-br from-sky-800 to-gray-800 via-sky-900 overflow-y-auto lg:static lg:inset-0 scrollbar-hide pb-6`}>
-                <div className="flex items-center px-0.5 py-2 shadow border-b border-sky-700">
+            <div className={`${showSidebar ? 'translate-x-0 ease-out w-60 ' : '-translate-x-full ease-in w-0'} fixed z-30 inset-y-0 left-0 transition duration-300 transform bg-gradient-to-br from-slate-800 to-gray-800 via-slate-900 overflow-y-auto lg:static lg:inset-0 scrollbar-hide pb-6`}>
+                <div className="flex items-center px-0.5 py-2 shadow border-b border-slate-700">
                     <div className="flex items-center mx-auto">
                         <Logo className="px-2 h-[5rem]" />
                     </div>

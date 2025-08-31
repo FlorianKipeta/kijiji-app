@@ -19,7 +19,7 @@ const Topbar = () => {
 
     return (
 
-        <header className="flex justify-between items-center py-3 px-6 bg-sky-50" >
+        <header className="flex justify-between items-center py-3 px-6 bg-slate-50" >
             <div className="flex items-center">
                 <button onClick={() => setShowSidebar(!showSidebar)} className="text-gray-500 focus:outline-none" >
                     <Bars3CenterLeftIcon className="h-6 w-6 text-gray-600" />

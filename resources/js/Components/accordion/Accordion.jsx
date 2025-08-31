@@ -12,13 +12,13 @@ const Accordion = ({ defaultOpen = false, children }) => {
 
 Accordion.Button = ({ children, open = false }) => {
 	return (
-		<Disclosure.Button className="flex justify-between w-full px-6 py-2 font-bold text-left text-sky-900 bg-sky-100 rounded hover:bg-sky-200 shadow-sm mb-2 focus:outline-none focus-visible:ring focus-visible:ring-sky-500 focus-visible:ring-opacity-75">
+		<Disclosure.Button className="flex justify-between w-full px-6 py-2 font-bold text-left text-slate-900 bg-slate-100 rounded hover:bg-slate-200 shadow-sm mb-2 focus:outline-none focus-visible:ring focus-visible:ring-slate-500 focus-visible:ring-opacity-75">
 			<div>
 				{children}
 			</div>
 			<ChevronRightIcon
 				className={`${open ? 'transform rotate-90' : ''
-					} w-5 h-5 text-sky-500`}
+					} w-5 h-5 text-slate-500`}
 			/>
 		</Disclosure.Button>
 	)

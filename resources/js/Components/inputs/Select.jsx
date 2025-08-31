@@ -69,7 +69,7 @@ Select.Option = ({ value, name }) => {
 	return (
 		<Listbox.Option
 			className={({ active }) =>
-				`${active ? 'text-sky-900 bg-sky-100' : 'text-gray-900'} cursor-default select-none relative py-2 pl-10 pr-4`
+				`${active ? 'text-slate-900 bg-slate-100' : 'text-gray-900'} cursor-default select-none relative py-2 pl-10 pr-4`
 			}
 			value={value}
 		>
@@ -79,7 +79,7 @@ Select.Option = ({ value, name }) => {
 						{name}
 					</span>
 					{selected ? (
-						<span className={`${active ? 'text-sky-600' : 'text-sky-600'} absolute inset-y-0 left-0 flex items-center pl-3`} >
+						<span className={`${active ? 'text-slate-600' : 'text-slate-600'} absolute inset-y-0 left-0 flex items-center pl-3`} >
 							<CheckIcon className="w-5 h-5" aria-hidden="true" />
 						</span>
 					) : null}

@@ -15,7 +15,7 @@ const appName = import.meta.env.VITE_APP_NAME || 'ENHANCE';
 const queryClient = new QueryClient();
 
 const contextClass = {
-    success: "bg-sky-200 text-sky-800 border-sky-300",
+    success: "bg-slate-200 text-slate-800 border-slate-300",
     error: "bg-red-200 text-red-800 border-red-300",
     info: "bg-gray-200 text-gray-800 border-gray-300",
     warning: "bg-yellow-200 text-yellow-800 border-yellow-400",

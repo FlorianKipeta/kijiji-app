@@ -25,7 +25,7 @@ Combobox.Input = ({ placeholder, label = null, value, setQuery, error = false, m
 							{value?.length > 0 && (
 								<ul className='flex flex-wrap gap-1'>
 									{value.map((val, index) => (
-										<li className='bg-sky-200/70 text-sky-800 rounded-lg px-2 text-sm flex gap-1' key={JSON.stringify(val)}>
+										<li className='bg-slate-200/70 text-slate-800 rounded-lg px-2 text-sm flex gap-1' key={JSON.stringify(val)}>
 											{getItemNameForMultipleValue(val)}
 											<XMarkIcon className='w-3 hover:text-red-600' onClick={() => removeValueInMultple(index)} />
 										</li>
@@ -42,7 +42,7 @@ Combobox.Input = ({ placeholder, label = null, value, setQuery, error = false, m
 						<div className='gap-1 flex items-center'>
 							{
 								label !== null &&
-								<span className='text-sky-800 text-sm md:whitespace-nowrap'> {label} </span>
+								<span className='text-slate-800 text-sm md:whitespace-nowrap'> {label} </span>
 							}
 							<HeadlessCombobox.Input
 								placeholder={placeholder}
@@ -86,7 +86,7 @@ Combobox.Option = ({ value, name }) => {
 	return (
 		<HeadlessCombobox.Option
 			className={({ active }) =>
-				`${active ? 'text-sky-900 bg-sky-100' : 'text-gray-900'} cursor-default select-none relative py-2 pl-10 pr-4`
+				`${active ? 'text-slate-900 bg-slate-100' : 'text-gray-900'} cursor-default select-none relative py-2 pl-10 pr-4`
 			}
 			value={value}
 		>
@@ -96,7 +96,7 @@ Combobox.Option = ({ value, name }) => {
 						{name}
 					</span>
 					{selected ? (
-						<span className={`${active ? 'text-sky-600' : 'text-sky-600'} absolute inset-y-0 left-0 flex items-center pl-3`} >
+						<span className={`${active ? 'text-slate-600' : 'text-slate-600'} absolute inset-y-0 left-0 flex items-center pl-3`} >
 							<CheckIcon className="w-5 h-5" aria-hidden="true" />
 						</span>
 					) : null}

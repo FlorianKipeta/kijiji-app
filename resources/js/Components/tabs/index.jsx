@@ -36,7 +36,7 @@ export const Tab = ({ children }) => {
     return (
         <HeadlessTab className={({ selected }) => `px-4 py-3 mt-4 cursor-pointer font-semibold whitespace-nowrap w-full text-black text-sm
             ${selected ?
-                'border-b-2 border-sky-950 rounded-t-lg'
+                'border-b-2 border-slate-950 rounded-t-lg'
                 :
                 'text-gray-600'}`
         }>

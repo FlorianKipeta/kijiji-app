@@ -39,7 +39,7 @@ export const ResetAccountPassword = ({ user }) => {
     return (
         <>
             <div className="mb-3">
-                <h2 className="text-sky-700 text-xl font-bold">Reset User Password</h2>
+                <h2 className="text-slate-700 text-xl font-bold">Reset User Password</h2>
                 <p className="text-gray-500 text-sm">Reset password of <span className="text-indigo-500 font-semibold">{user.name}</span></p>
             </div>
             {

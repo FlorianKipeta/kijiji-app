@@ -19,7 +19,7 @@ export const BaseTable = ({ children, ...otherProps }) => {
 
 BaseTable.Thead = ({ children, className = null }) => {
 	return (
-		<thead className={`bg-sky-200 bg-opacity-70 ${className}`}>
+		<thead className={`bg-slate-200 bg-opacity-70 ${className}`}>
 			{children}
 		</thead>
 	)
@@ -43,7 +43,7 @@ BaseTable.Tr = ({ children, className = null, ...props }) => {
 
 BaseTable.Th = ({ children, className = null, ...props }) => {
 	return (
-		<th scope="col" className={`px-6 py-3 text-left font-semibold text-sky-800 capitalize ${className}`} {...props}>
+		<th scope="col" className={`px-6 py-3 text-left font-semibold text-slate-800 capitalize ${className}`} {...props}>
 			{children}
 		</th>
 	)

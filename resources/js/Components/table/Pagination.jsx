@@ -56,7 +56,7 @@ export const Pagination = ({
 
                                     typeof page === 'number' ?
 
-                                        <button disabled={pageIndex === page} key={index} onClick={() => gotoPage(page)} className={`relative inline-flex items-center px-3 py-1 border border-gray-300 text-sm hover:bg-sky-700 hover:text-sky-100 focus:outline-none ${pageIndex === page ? 'text-sky-100 font-bold bg-sky-700' : 'text-gray-600 font-medium'}`}>
+                                        <button disabled={pageIndex === page} key={index} onClick={() => gotoPage(page)} className={`relative inline-flex items-center px-3 py-1 border border-gray-300 text-sm hover:bg-slate-700 hover:text-slate-100 focus:outline-none ${pageIndex === page ? 'text-slate-100 font-bold bg-slate-700' : 'text-gray-600 font-medium'}`}>
                                             {page + 1}
                                         </button>
 

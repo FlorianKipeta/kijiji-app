@@ -84,7 +84,7 @@ export default function UpdateProfileInformation({
                         </p>
 
                         {status === 'verification-link-sent' && (
-                            <div className="mt-2 text-sm font-medium text-sky-600 dark:text-sky-400">
+                            <div className="mt-2 text-sm font-medium text-slate-600 dark:text-slate-400">
                                 A new verification link has been sent to your
                                 email address.
                             </div>

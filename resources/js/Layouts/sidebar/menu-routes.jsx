@@ -11,12 +11,12 @@ export const routes = [
     {
         name: 'Dashboard',
         url: route('dashboard'),
-        Icon: () => (<ChartPieIcon className="w-5 h-5 text-sky-200"/>),
+        Icon: () => (<ChartPieIcon className="w-5 h-5 text-slate-200"/>),
         permission: 'canViewDashboard',
     },
     // {
     //     name: 'Tenders',
-    //     Icon: () => (<Bars3Icon className="w-5 h-5 text-sky-200"/>),
+    //     Icon: () => (<Bars3Icon className="w-5 h-5 text-slate-200"/>),
     //     routes: [
     //         {name: 'Tenders', url: route('tenders.index'), permission: 'canViewTenders'},
     //         {name: 'Customers', url: route('customers.index'), permission: 'canViewCustomers'},
@@ -25,7 +25,7 @@ export const routes = [
     // },
     // {
     //     name: 'Whatsapp',
-    //     Icon: () => (<Bars3Icon className="w-5 h-5 text-sky-200"/>),
+    //     Icon: () => (<Bars3Icon className="w-5 h-5 text-slate-200"/>),
     //     routes: [
     //         {name: 'Chats', url: route('chats'), permission: 'canViewGroups'},
     //         {name: 'QR Codes', url: route('qr-codes.index'), permission: 'canViewQrCodes'},
@@ -37,7 +37,7 @@ export const routes = [
     // },
     {
         name: 'Administration',
-        Icon: () => (<UserGroupIcon className="w-5 h-5 text-sky-200"/>),
+        Icon: () => (<UserGroupIcon className="w-5 h-5 text-slate-200"/>),
         routes: [
             {name: 'Users accounts', url: route('users.index'), permission: 'canViewUsers'},
             {name: 'Roles', url: route('roles.index'), permission: 'canViewRoles'},

@@ -15,7 +15,7 @@ export const UsersTable = ({ canEdit, users }) => {
 			accessor: 'name',
 			Cell: ({ value, row }) => {
 				return <a href="" className="flex items-center space-x-4 focus:outline-none focus:bg-indigo-200 focus:ring-indigo-500 focus:ring-opacity-60 hover:underline hover:text-indigo-500">
-					<img src={row.original.profile_photo_url} loading="lazy" alt={'Avatar'} className={`w-10 h-10 rounded-full ring-1 ring-offset-2  ring-sky-400`} />
+					<img src={row.original.profile_photo_url} loading="lazy" alt={'Avatar'} className={`w-10 h-10 rounded-full ring-1 ring-offset-2  ring-slate-400`} />
 					<div className="flex flex-col items-start flex-1">
 						<span className="font-semibold">{value}</span>
 					</div>

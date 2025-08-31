@@ -45,7 +45,7 @@ export default function Login({ status, canResetPassword }) {
                         type="email"
                         name="email"
                         value={data.email}
-                        className="mt-1 block w-full rounded-lg border-gray-300 focus:border-sky-500 focus:ring-sky-500 placeholder-gray-400"
+                        className="mt-1 block w-full rounded-lg border-gray-300 focus:border-slate-500 focus:ring-slate-500 placeholder-gray-400"
                         autoComplete="username"
                         placeholder="Email address"
                         isFocused={true}
@@ -61,7 +61,7 @@ export default function Login({ status, canResetPassword }) {
                         type="password"
                         name="password"
                         value={data.password}
-                        className="mt-1 block w-full rounded-lg border-gray-300 focus:border-sky-500 focus:ring-sky-500 placeholder-gray-400"
+                        className="mt-1 block w-full rounded-lg border-gray-300 focus:border-slate-500 focus:ring-slate-500 placeholder-gray-400"
                         autoComplete="current-password"
                         placeholder="Password"
                         onChange={(e) => setData("password", e.target.value)}
@@ -74,7 +74,7 @@ export default function Login({ status, canResetPassword }) {
                     {canResetPassword && (
                         <Link
                             href={route("password.request")}
-                            className="text-sm text-sky-600 hover:underline"
+                            className="text-sm text-slate-600 hover:underline"
                         >
                             Forgot password?
                         </Link>
@@ -82,7 +82,7 @@ export default function Login({ status, canResetPassword }) {
 
                     <SecondaryButton
                         type="submit"
-                        className="px-6 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition"
+                        className="px-6 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition"
                         disabled={processing}
                     >
                         Log in
@@ -94,7 +94,7 @@ export default function Login({ status, canResetPassword }) {
                     Don’t have an account?{" "}
                     {/*<Link*/}
                     {/*    href={route("register")}*/}
-                    {/*    className="text-sky-600 font-medium hover:underline"*/}
+                    {/*    className="text-slate-600 font-medium hover:underline"*/}
                     {/*>*/}
                         Sign up
                     {/*</Link>*/}

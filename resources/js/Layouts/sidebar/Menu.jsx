@@ -8,9 +8,9 @@ const Menu = ({ name, url = "#", routes = null, Icon = null }) => {
 
     const [isOpen, setIsOpen] = useState(false);
 
-    const activeClass = "bg-sky-500 bg-opacity-25 text-gray-100 border-gray-100 border-l-2";
+    const activeClass = "bg-slate-500 bg-opacity-25 text-gray-100 border-gray-100 border-l-2";
 
-    const inactiveClass = "text-gray-200 hover:bg-sky-500 hover:bg-opacity-25 hover:text-gray-100";
+    const inactiveClass = "text-gray-200 hover:bg-slate-500 hover:bg-opacity-25 hover:text-gray-100";
 
     if (Array.isArray(routes) && routes.length) {
         return (

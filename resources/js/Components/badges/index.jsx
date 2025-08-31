@@ -2,7 +2,7 @@ import React from 'react';
 
 export const PrimaryBadge = ({ children }) => {
 	return (
-		<span className="text-sky-500 shadow-sm inline-flex items-center mx-0.5 border border-sky-100 font-semibold hover:text-sky-700 bg-sky-100 px-1.5 rounded-md hover:border hover:border-sky-300 cursor-pointer">
+		<span className="text-slate-500 shadow-sm inline-flex items-center mx-0.5 border border-slate-100 font-semibold hover:text-slate-700 bg-slate-100 px-1.5 rounded-md hover:border hover:border-slate-300 cursor-pointer">
 			{children}
 		</span>
 	)
