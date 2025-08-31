@@ -1,97 +1,104 @@
-import { useEffect } from 'react';
-import GuestLayout from '@/Layouts/GuestLayout';
-import InputError from '@components/InputError';
-import InputLabel from '@components/InputLabel';
-import TextInput from '@components/TextInput';
-import { Head, Link, useForm } from '@inertiajs/react';
-import SecondaryButton from '@components/SecondaryButton';
+import { useEffect } from "react";
+import GuestLayout from "@/Layouts/GuestLayout";
+import InputError from "@components/InputError";
+import TextInput from "@components/TextInput";
+import { Head, Link, useForm } from "@inertiajs/react";
+import SecondaryButton from "@components/SecondaryButton";
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        email: '',
-        password: '',
+        email: "",
+        password: "",
         remember: false,
     });
 
     useEffect(() => {
         return () => {
-            reset('password');
+            reset("password");
         };
     }, []);
 
     const submit = (e) => {
         e.preventDefault();
-
-        post(route('login'));
+        post(route("login"));
     };
 
     return (
         <GuestLayout>
             <Head title="Log in" />
 
-            {status && <div className="mb-4 font-medium text-sm text-sky-600">{status}</div>}
+            {status && (
+                <div className="mb-4 font-medium text-sm text-green-500 text-center">
+                    {status}
+                </div>
+            )}
 
-            <form onSubmit={submit}>
+            <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+                Welcome Back 👋
+            </h2>
+
+            <form onSubmit={submit} className="space-y-5">
+                {/* Email */}
                 <div>
-                    <InputLabel htmlFor="email" value="Email" className='!text-gray-50' />
-
                     <TextInput
                         id="email"
                         type="email"
                         name="email"
                         value={data.email}
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full rounded-lg border-gray-300 focus:border-sky-500 focus:ring-sky-500 placeholder-gray-400"
                         autoComplete="username"
-                        placeholder="user@kijiji.co.tz"
+                        placeholder="Email address"
                         isFocused={true}
-                        onChange={(e) => setData('email', e.target.value)}
+                        onChange={(e) => setData("email", e.target.value)}
                     />
-
                     <InputError message={errors.email} className="mt-2" />
                 </div>
 
-                <div className="mt-4 lg:mt-6">
-                    <InputLabel htmlFor="password" value="Password" className='!text-gray-50' />
-
+                {/* Password */}
+                <div>
                     <TextInput
                         id="password"
                         type="password"
                         name="password"
                         value={data.password}
-                        placeholder="Password"
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full rounded-lg border-gray-300 focus:border-sky-500 focus:ring-sky-500 placeholder-gray-400"
                         autoComplete="current-password"
-                        onChange={(e) => setData('password', e.target.value)}
+                        placeholder="Password"
+                        onChange={(e) => setData("password", e.target.value)}
                     />
-
                     <InputError message={errors.password} className="mt-2" />
                 </div>
 
-                {/* <div className="block mt-4">
-                    <label className="flex items-center">
-                        <Checkbox
-                            name="remember"
-                            checked={data.remember}
-                            onChange={(e) => setData('remember', e.target.checked)}
-                        />
-                        <span className="ml-2 text-sm text-gray-100">Remember me</span>
-                    </label>
-                </div> */}
-
-                <div className="flex items-center justify-end mt-4 lg:mt-6">
+                {/* Actions */}
+                <div className="flex items-center justify-between">
                     {canResetPassword && (
                         <Link
-                            href={route('password.request')}
-                            className="underline text-sm text-white hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            href={route("password.request")}
+                            className="text-sm text-sky-600 hover:underline"
                         >
-                            Forgot your password?
+                            Forgot password?
                         </Link>
                     )}
 
-                    <SecondaryButton type='submit' className="ml-4" disabled={processing}>
+                    <SecondaryButton
+                        type="submit"
+                        className="px-6 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition"
+                        disabled={processing}
+                    >
                         Log in
                     </SecondaryButton>
                 </div>
+
+                {/* Sign Up link */}
+                <p className="text-center text-sm text-gray-500 mt-6">
+                    Don’t have an account?{" "}
+                    {/*<Link*/}
+                    {/*    href={route("register")}*/}
+                    {/*    className="text-sky-600 font-medium hover:underline"*/}
+                    {/*>*/}
+                        Sign up
+                    {/*</Link>*/}
+                </p>
             </form>
         </GuestLayout>
     );
