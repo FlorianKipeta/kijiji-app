@@ -1,15 +1,17 @@
 <?php
+
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class TenderUpdateMail extends Notification
 {
     use Queueable;
 
     public $tender;
+
     public $note;
 
     public function __construct($tender, $note)
@@ -31,7 +33,7 @@ class TenderUpdateMail extends Notification
             ->line("**Note:** {$this->note->message}");
 
         if ($this->note->document) {
-//            $mail->action('View Attachment', url("/documents/{$this->note->document->id}/view"));
+            //            $mail->action('View Attachment', url("/documents/{$this->note->document->id}/view"));
         }
 
         $mail->action('View Tender', route('tenders.show', $this->tender->id));

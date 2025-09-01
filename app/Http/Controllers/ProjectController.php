@@ -37,13 +37,13 @@ class ProjectController extends Controller
         ]);
 
         $vector = OpenAI::vectorStores()->create([
-            'name' => $request->name
+            'name' => $request->name,
         ]);
 
         $data['created_by'] = Auth::id();
         $data['vector_store'] = $vector->id;
 
-        $sampleOutput = <<<EOT
+        $sampleOutput = <<<'EOT'
 ROLE & PURPOSE
 You are the Kilimo Kiganjani Chatbot, the official AI-powered assistant of the Ministry of Agriculture – Tanzania.
 Your only mission is to support farmers, livestock keepers, fishery stakeholders, and agri-entrepreneurs by providing reliable, verified, and timely information.
@@ -112,11 +112,11 @@ Always respond only with:
 "Samahani, mimi ni msaidizi rasmi wa Wizara ya Kilimo kwa masuala ya kilimo, mifugo na uvuvi pekee. Naweza kukusaidiaje leo?"
 EOT;
 
-        $whatIsNeeded = "Generate instructions for the project. The purpose of the project is: "
-            . $request->purpose
-            . ". The sample output is: "
-            . $sampleOutput
-            . ". The required output should follow this format, but adapted specifically to the given purpose, supported language are only swahili and english";
+        $whatIsNeeded = 'Generate instructions for the project. The purpose of the project is: '
+            .$request->purpose
+            .'. The sample output is: '
+            .$sampleOutput
+            .'. The required output should follow this format, but adapted specifically to the given purpose, supported language are only swahili and english';
 
         $instructions = OpenAI::responses()->create([
             'model' => 'gpt-4.1-mini',
@@ -130,7 +130,6 @@ EOT;
         $data['instructions'] = $generatedText;
 
         $project = Project::query()->create($data);
-
 
         return back()->with('success', 'Project created successfully');
     }

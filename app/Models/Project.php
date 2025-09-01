@@ -9,7 +9,8 @@ use Spatie\Sluggable\SlugOptions;
 
 class Project extends Model
 {
-    use HasSlug, HasCreator;
+    use HasCreator, HasSlug;
+
     protected $fillable = [
         'name',
         'slug',
@@ -17,7 +18,7 @@ class Project extends Model
         'instructions',
         'model',
         'vector_store',
-        'created_by'
+        'created_by',
     ];
 
     public function getSlugOptions(): SlugOptions

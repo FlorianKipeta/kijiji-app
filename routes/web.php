@@ -1,13 +1,8 @@
 <?php
 
-use App\Http\Controllers\API\CustomerAPIController;
-use App\Http\Controllers\API\DepartmentAPIController;
-use App\Http\Controllers\API\DocumentTypeAPIController;
 use App\Http\Controllers\API\NotificationAPIController;
 use App\Http\Controllers\API\ProjectAPIController;
 use App\Http\Controllers\API\RoleAPIController;
-use App\Http\Controllers\API\TenderAPIController;
-use App\Http\Controllers\API\TenderStatsAPIController;
 use App\Http\Controllers\API\UserAPIController;
 use App\Http\Controllers\Auth\ResetUserPasswordController;
 use App\Http\Controllers\Auth\RolesController;
@@ -16,14 +11,8 @@ use App\Http\Controllers\Auth\UpdateUserRoleController;
 use App\Http\Controllers\Auth\UsersController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\DepartmentController;
-use App\Http\Controllers\DocumentController;
-use App\Http\Controllers\DocumentTypeController;
-use App\Http\Controllers\NoteController;
-use App\Http\Controllers\NotificationSettingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\TenderController;
 use App\Http\Middleware\MustChangePassword;
 use Illuminate\Support\Facades\Route;
 

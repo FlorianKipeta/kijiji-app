@@ -29,7 +29,6 @@ class PermissionTableSeeder extends Seeder
         ['name' => 'edit projects', 'module' => 'Projects'],
         ['name' => 'delete projects', 'module' => 'Projects'],
 
-
     ];
 
     /**

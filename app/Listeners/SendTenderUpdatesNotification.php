@@ -26,7 +26,7 @@ class SendTenderUpdatesNotification
             ->where('name', NotificationSetting::TENDER_UPDATES_MAIL_LIST)
             ->first();
 
-        if (!$emailsSetting || empty($emailsSetting->value)) {
+        if (! $emailsSetting || empty($emailsSetting->value)) {
             return;
         }
 
@@ -35,5 +35,4 @@ class SendTenderUpdatesNotification
         Notification::route('mail', $emails)
             ->notify(new TenderUpdateMail($event->tender, $event->note));
     }
-
 }
