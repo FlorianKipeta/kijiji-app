@@ -29,8 +29,6 @@ export const ProjectTable = ({
             Cell: ({value, row}) => {
                 return (
                     <div className="flex items-center gap-x-3">
-                        <img src={row.original.image_path} loading="lazy" alt={''}
-                             className={`w-8 aspect-square bg-slate-500 rounded-full`}/>
                         <div className="flex flex-col items-start flex-1">
                             <span className="font-semibold">{value}</span>
                         </div>
@@ -39,19 +37,26 @@ export const ProjectTable = ({
             }
         },
         {
-            Header: 'Purpose',
-            accessor: 'purpose',
-        },
-        {
             Header: 'Model',
             accessor: 'model',
+        },
+        {
+            Header: 'Purpose',
+            accessor: 'purpose',
+            Cell: ({value}) => {
+                return (
+                    <span className="text-wrap">{value.length > 20 ? value.substring(0, 200) + '...' : value}</span>
+                )
+            }
         },
         {
             Header: 'Instructions',
             accessor: 'instructions',
             Cell: ({value}) => {
                 return (
-                    <span className="text-wrap">{value}</span>
+
+                    /*take 20 characters only and title all words*/
+                    <span className="text-wrap">{value.length > 20 ? value.substring(0, 200) + '...' : value}</span>
                 )
             }
         },

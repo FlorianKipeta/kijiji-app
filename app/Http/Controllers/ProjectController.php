@@ -119,7 +119,7 @@ EOT;
             .'. The required output should follow this format, but adapted specifically to the given purpose, supported language are only swahili and english';
 
         $instructions = OpenAI::responses()->create([
-            'model' => 'gpt-4.1-mini',
+            'model' => $request->model,
             'input' => $whatIsNeeded,
             'max_output_tokens' => 500,
             'temperature' => 0.7,

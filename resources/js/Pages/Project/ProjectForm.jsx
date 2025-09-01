@@ -84,7 +84,24 @@ export default function ProjectForm({
                 <div className="flex flex-col">
                     <label htmlFor="model">Model</label>
                     <SearchableSelect
-                        data={['GPT-4']}
+                        data={[
+                            'gpt-5',
+                            'gpt-5-mini',
+                            'gpt-5-nano',
+                            'gpt-5-chat',
+                            'gpt-4',
+                            'gpt-4-32k',
+                            'gpt-4-turbo',
+                            'gpt-4.1',
+                            'gpt-4.1-mini',
+                            'gpt-4.1-nano',
+                            'o1',
+                            'o1-mini',
+                            'o3',
+                            'o3-mini',
+                            'o3-pro',
+                            'o4-mini',
+                        ]}
                         value={data.model}
                         onChange={(val) => setData("model", val)}
                     />
