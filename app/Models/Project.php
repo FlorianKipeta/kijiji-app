@@ -2,20 +2,22 @@
 
 namespace App\Models;
 
+use App\Traits\HasCreator;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
 class Project extends Model
 {
-    use HasSlug;
+    use HasSlug, HasCreator;
     protected $fillable = [
         'name',
         'slug',
         'purpose',
         'instructions',
         'model',
-        'vector_store'
+        'vector_store',
+        'created_by'
     ];
 
     public function getSlugOptions(): SlugOptions
