@@ -139,7 +139,7 @@ EOT;
         abort_if(auth()->user()->cannot('view projects'), 403);
 
         return inertia('Project/Show', [
-            'project' => new ProjectResource($project),
+            'project' => new ProjectResource($project->load('creator')),
         ]);
     }
 

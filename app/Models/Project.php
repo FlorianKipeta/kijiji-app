@@ -28,4 +28,9 @@ class Project extends Model
             ->slugsShouldBeNoLongerThan(60)
             ->saveSlugsTo('slug');
     }
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 }

@@ -45,9 +45,9 @@ class AccountUpdatedNotification extends Notification implements ShouldQueue
         $loginLink = url('/login'); // Replace this with the actual login link
 
         return (new MailMessage)
-            ->subject('Enhance CHAT - New Password')
+            ->subject('Kijiji AI - New Password')
             ->greeting('Hello '.$this->name)
-            ->line('Your account for the Enhance Auto CHAT has been updated.')
+            ->line('Your account for the Kijiji AI has been updated.')
             ->line('You can use the following credentials to log in:')
             ->line('Email: '.$this->email)
             ->line('Password: '.$this->password) // Provide the actual password here

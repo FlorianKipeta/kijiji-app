@@ -66,11 +66,11 @@ export const ProjectTable = ({
             Cell: ({row}) => {
                 return (
                     <div>
-                        {/*<Link href={route('projects.show', row.original.id)}>*/}
-                        {/*    <PrimaryBadge>*/}
-                        {/*        <EyeIcon className='w-4 mr-1.5'/>*/}
-                        {/*    </PrimaryBadge>*/}
-                        {/*</Link>*/}
+                        <Link href={route('projects.show', row.original.slug)}>
+                            <PrimaryBadge>
+                                <EyeIcon className='w-4 mr-1.5'/>
+                            </PrimaryBadge>
+                        </Link>
                         {
                             canEdit &&
                             <button onClick={() => showModal(row.original, 'edit')}>

@@ -51,7 +51,7 @@ class UsersController extends Controller
         $user = User::create([
             'name' => strtoupper($request->name),
             'email' => $request->email,
-            'password' => Hash::make('Enhance@1357'),
+            'password' => Hash::make('Kijiji@1357'),
             'must_change_password' => true,
         ]);
 

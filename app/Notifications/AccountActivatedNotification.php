@@ -39,12 +39,12 @@ class AccountActivatedNotification extends Notification
         $loginLink = url('/login'); // Replace this with the actual login link
 
         return (new MailMessage)
-            ->subject('Enhance CHAT - Account Activated')
+            ->subject('Kijiji AI - Account Activated')
             ->greeting('Hello '.$this->user->name)
-            ->line('Your account for the Enhance Auto CHAT has been activated.')
+            ->line('Your account for the Kijiji AI has been activated.')
             ->line('You can use the following credentials to log in:')
             ->line('Email: '.$this->user->email)
-            ->line('Password: Enhance@1357')
+            ->line('Password: Kijiji@1357')
             ->action('Login Now', $loginLink)
             ->line('Thank you for using our System!');
     }
