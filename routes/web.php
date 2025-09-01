@@ -4,6 +4,7 @@ use App\Http\Controllers\API\CustomerAPIController;
 use App\Http\Controllers\API\DepartmentAPIController;
 use App\Http\Controllers\API\DocumentTypeAPIController;
 use App\Http\Controllers\API\NotificationAPIController;
+use App\Http\Controllers\API\ProjectAPIController;
 use App\Http\Controllers\API\RoleAPIController;
 use App\Http\Controllers\API\TenderAPIController;
 use App\Http\Controllers\API\TenderStatsAPIController;
@@ -76,6 +77,7 @@ Route::middleware(['auth', MustChangePassword::class])->group(function () {
     |--------------------------------------------------------------------------------------------------
     */
     Route::prefix('api')->name('api.')->group(function () {
+        Route::get('projects', ProjectAPIController::class)->name('projects');
         Route::get('users', UserAPIController::class)->name('users');
         Route::get('users-with-role/{role}', [UserAPIController::class, 'usersWithRole'])->name('users-with-role');
         Route::get('roles', RoleAPIController::class)->name('roles');

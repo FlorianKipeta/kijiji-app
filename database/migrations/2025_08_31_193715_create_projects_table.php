@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('purpose');
             $table->longText('instructions')->nullable();
             $table->string('model');
+            $table->string('vector_store')->nullable();
             $table->timestamps();
         });
     }

@@ -24,6 +24,12 @@ class PermissionTableSeeder extends Seeder
         ['name' => 'view user settings', 'module' => 'User Management'],
         ['name' => 'manage user settings', 'module' => 'User Management'],
 
+        ['name' => 'view projects', 'module' => 'Projects'],
+        ['name' => 'create projects', 'module' => 'Projects'],
+        ['name' => 'edit projects', 'module' => 'Projects'],
+        ['name' => 'delete projects', 'module' => 'Projects'],
+
+
     ];
 
     /**
