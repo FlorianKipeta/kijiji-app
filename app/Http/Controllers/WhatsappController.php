@@ -92,15 +92,6 @@ class WhatsappController extends Controller
                 ]
             );
         }
-        // Save WhatsApp account with access token
-        $project->whatsappAccount()->updateOrCreate([
-            'phone_number_id' => $phoneNumberID,
-            'waba_id' => $wabaID,
-            'business_id' => $validated['values']['business_id'],
-            'code' => $code,
-            'status' => $validated['code']['status'],
-            'access_token' => $accessToken, // ✅ make sure your DB table has this column
-        ]);
 
         return redirect()->back()->with('success', 'WhatsApp account connected successfully!');
     }
