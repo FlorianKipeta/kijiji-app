@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\WhatsappAccount;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
 class WhatsappController extends Controller
@@ -35,7 +36,7 @@ class WhatsappController extends Controller
         $code = $validated['code']['authResponse']['code'];
 
         // Call Facebook OAuth API to get access token
-        $response = Http::get('https://graph.facebook.com/v19.0/oauth/access_token', [
+        $response = Http::get('https://graph.facebook.com/v23.0/oauth/access_token', [
             'client_id'     => $appId,
             'redirect_uri'  => $redirect,
             'client_secret' => $appSecret,
