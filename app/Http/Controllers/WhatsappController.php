@@ -59,7 +59,7 @@ class WhatsappController extends Controller
         $wabaID = $validated['values']['waba_id'];
 
         $register = Http::withToken($accessToken)
-            ->get('https://graph.facebook.com/v23.0/'.$phoneNumberID.'/register', [
+            ->post('https://graph.facebook.com/v23.0/'.$phoneNumberID.'/register', [
                 'messaging_product' => 'whatsapp',
                 'pin' => '123456',
             ]);
