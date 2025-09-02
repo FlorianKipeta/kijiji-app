@@ -35,7 +35,7 @@ class WhatsAppService
             'temperature' => 0.7,
         ]);
 
-        Log::debug("Response: ", [$res]);
+        Log::debug("Response: ", [$res['outputText']]);
 
 
         Http::withHeaders([
