@@ -85,6 +85,13 @@ export default function Whatsapp({canCreate, project}) {
                             preserveScroll: true,
                             preserveState: true
                         });
+
+                        console.log("✅Again Finished", {
+                            values: outputData.data,
+                            code: data.code,
+                            preserveScroll: true,
+                            preserveState: true
+                        });
                         console.log("✅ Finished", outputData.data);
                     } else if (outputData.event === 'CANCEL') {
                         console.warn("⚠️ Cancel at", outputData.data.current_step);
