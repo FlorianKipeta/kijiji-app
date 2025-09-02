@@ -35,7 +35,7 @@ class ReceiveMessageJob extends ProcessWebhookJob
         $message = $validatedData['messages'][0] ?? null;
         $phoneNumberID = $validatedData['metadata']['phone_number_id'] ?? null;
 
-        $whatsAppAccount = WhatsAppAccount::query()->where('phone_number_id', $phoneNumberID)->first();
+        $whatsAppAccount = WhatsAppAccount::query()->first();
         if ($whatsAppAccount) {
             $project = $whatsAppAccount->project;
 
