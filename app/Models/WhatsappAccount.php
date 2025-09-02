@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class WhatsappAccount extends Model
 {
     protected $fillable = [
-        'phone_number_id', 'waba_id', 'business_id', 'code','status','project_id'
+        'phone_number_id', 'waba_id', 'business_id', 'code','status','project_id','access_token'
     ];
 
     public function project(): BelongsTo
