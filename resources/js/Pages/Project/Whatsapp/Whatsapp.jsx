@@ -51,6 +51,14 @@ export default function Whatsapp({canCreate, project}) {
         if (response.authResponse) {
             const code = response.authResponse.code;
             setData("code", response);
+
+            post(route('projects.whatsapp.store', project.slug), {
+                onSuccess: () => {
+                    reset();
+                },
+                preserveScroll: true,
+                preserveState: true
+            });
             // Send this code to your backend to exchange for access token
         }
         console.log("FB Login Response:", response);
@@ -79,19 +87,7 @@ export default function Whatsapp({canCreate, project}) {
                 const outputData = JSON.parse(event.data);
                 if (outputData.type === 'WA_EMBEDDED_SIGNUP') {
                     if (outputData.event === 'FINISH') {
-                        post(route('projects.whatsapp.store', project.slug), {
-                            values: outputData.data,
-                            code: data.code,
-                            preserveScroll: true,
-                            preserveState: true
-                        });
-
-                        console.log("✅Again Finished", {
-                            values: outputData.data,
-                            code: data.code,
-                            preserveScroll: true,
-                            preserveState: true
-                        });
+                        setData("values", outputData.data);
                         console.log("✅ Finished", outputData.data);
                     } else if (outputData.event === 'CANCEL') {
                         console.warn("⚠️ Cancel at", outputData.data.current_step);
