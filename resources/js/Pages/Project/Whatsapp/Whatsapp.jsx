@@ -107,7 +107,7 @@ export default function Whatsapp({canCreate, project}) {
             <div className="flex items-center justify-between border-b">
                 <h2 className="text-lg font-bold text-gray-900">WhatsApp Account</h2>
                 <div className='flex justify-end mb-4'>
-                    {project?.whatsapp_account !== null &&
+                    {project?.whatsapp_account === null &&
                         <PrimaryBtn
                             labelName='Connect'
                             className="mr-4"
