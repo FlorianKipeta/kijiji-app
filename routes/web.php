@@ -15,6 +15,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\WebhookVerificationController;
 use App\Http\Controllers\WhatsappController;
 use App\Http\Middleware\MustChangePassword;
 use Illuminate\Support\Facades\Route;
@@ -78,5 +79,6 @@ Route::middleware(['auth', MustChangePassword::class])->group(function () {
         Route::get('roles', RoleAPIController::class)->name('roles');
     });
 });
+Route::get('/webhook', WebhookVerificationController::class);
 Route::webhooks('webhook');
 require __DIR__.'/auth.php';

@@ -12,6 +12,6 @@ class WhatsAppRespondsTo implements RespondsToWebhook
 {
     public function respondToValidWebhook(Request $request, WebhookConfig $config): Response
     {
-        return response($request->hub_challenge, 200);
+        return response()->json(['message' => 'ok']);
     }
 }
