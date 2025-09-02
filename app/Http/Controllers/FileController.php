@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\File;
 use App\Models\Project;
-use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use OpenAI\Laravel\Facades\OpenAI;
@@ -20,15 +20,22 @@ class FileController extends Controller
 
         $uploadedFile = $request->file('file');
 
-        $path = $uploadedFile->store("project_files/{$project->id}", 'public');
-        $absolutePath = storage_path("app/public/{$path}");
+        $originalName = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+        $extension = $uploadedFile->getClientOriginalExtension();
+
+        $safeName = Str::slug($originalName);
+        $fileName = $safeName.'_'.time().'.'.$extension;
+
+        $path = $uploadedFile->storeAs("project_files/{$project->id}", $fileName, 'local');
+
+        $absolutePath = storage_path("app/private/{$path}");
 
         $openAiFile = OpenAI::files()->upload([
             'file' => fopen($absolutePath, 'r'),
             'purpose' => 'assistants',
         ]);
 
-        if (!$project->vector_store) {
+        if (! $project->vector_store) {
             $vectorStore = OpenAI::vectorStores()->create([
                 'name' => "Project {$project->id} Store",
             ]);
@@ -64,5 +71,4 @@ class FileController extends Controller
 
         return redirect()->back()->with('success', 'File deleted successfully');
     }
-
 }
