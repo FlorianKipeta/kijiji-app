@@ -34,6 +34,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect()->route('dashboard');
 });
+Route::get('/privacy', function () {
+    return view('privacy');
+});
 
 Route::get('/dashboard', DashboardController::class)->middleware(['auth', 'verified', MustChangePassword::class])->name('dashboard');
 
