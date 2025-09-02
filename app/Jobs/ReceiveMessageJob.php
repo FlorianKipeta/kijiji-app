@@ -65,6 +65,7 @@ class ReceiveMessageJob extends ProcessWebhookJob
             ['phone' => $customerWhatsappID],
             [
                 'name' => $customerName,
+                'email' => time().'@celivent.com',
 //                'location' => (new GetCustomerLocation)->execute($customerWhatsappID),
                 'created_by' => 1,
             ]
