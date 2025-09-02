@@ -57,7 +57,7 @@ class WhatsappController extends Controller
         }
 
         // Save WhatsApp account with access token
-        $project->whatsappAccounts()->create([
+        $project->whatsappAccount()->updateOrCreate([
             'phone_number_id' => $validated['values']['phone_number_id'],
             'waba_id'         => $validated['values']['waba_id'],
             'business_id'     => $validated['values']['business_id'],
