@@ -131,6 +131,7 @@ EOT;
 
         $project = Project::query()->create($data);
 
+
         return back()->with('success', 'Project created successfully');
     }
 
@@ -139,6 +140,8 @@ EOT;
         abort_if(auth()->user()->cannot('view projects'), 403);
 
         return inertia('Project/Show', [
+            'canCreateFile' => auth()->user()->can('create file'),
+            'canDeleteFile' => auth()->user()->can('delete file'),
             'project' => new ProjectResource($project->load('creator')),
         ]);
     }

@@ -3,17 +3,19 @@ import React, {useState} from 'react'
 import StarRating from "@components/StarRatings.jsx";
 import EditProject from "@pages/Project/EditProject.jsx";
 import {PrimaryBadge} from "@components/badges/index.jsx";
+import {Tab, TabList, TabPanel, TabPanels, Tabs} from "@components/tabs/index.jsx";
+import FileLayout from "@pages/Project/File/FileLayout.jsx";
+import File from "@pages/Project/File/File.jsx";
 
-export default function Show({project, canAssign}) {
+export default function Show({project, canCreateFile, canDeleteFile}) {
 
     const [showEditModal, setShowEditModal] = useState(false);
 
 
     return (
         <Layout title={project?.name}>
-            <div className="grid grid-cols-2 gap-4 h-full">
+            <div className="grid grid-cols-2 gap-4">
                 <div className="">
-                    <div style={{height: 'calc(100vh - 130px)'}}>
                         <div className="card bg-white shadow-lg rounded-xl p-6 mb-6 border border-gray-200">
                             <div className="flex items-center justify-between border-b pb-4 mb-4">
                                 <h2 className="text-lg font-bold text-gray-900">{project?.name}</h2>
@@ -58,7 +60,6 @@ export default function Show({project, canAssign}) {
                             showEditModal &&
                             <EditProject show={showEditModal} setShow={setShowEditModal} project={project} refreshTable={() => setShowEditModal(false)}/>
                         }
-                    </div>
 
                 </div>
                 <div>
@@ -67,6 +68,10 @@ export default function Show({project, canAssign}) {
 
             </div>
 
+            <File project={project} canCreate={canCreateFile} canDelete={canDeleteFile} />
+
+            {/*<FileLayout project={project}>*/}
+            {/*</FileLayout>*/}
         </Layout>
     )
 }

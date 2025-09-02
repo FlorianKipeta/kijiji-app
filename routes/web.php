@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\FileAPIController;
 use App\Http\Controllers\API\NotificationAPIController;
 use App\Http\Controllers\API\ProjectAPIController;
 use App\Http\Controllers\API\RoleAPIController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\Auth\UpdateUserRoleController;
 use App\Http\Controllers\Auth\UsersController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Middleware\MustChangePassword;
@@ -36,6 +38,7 @@ Route::get('/dashboard', DashboardController::class)->middleware(['auth', 'verif
 Route::middleware(['auth', MustChangePassword::class])->group(function () {
 
     Route::resource('projects', ProjectController::class)->except(['create', 'edit']);
+    Route::resource('projects.files', FileController::class)->shallow()->only(['store', 'destroy']);
     Route::resource('customers', CustomerController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -67,6 +70,7 @@ Route::middleware(['auth', MustChangePassword::class])->group(function () {
     */
     Route::prefix('api')->name('api.')->group(function () {
         Route::get('projects', ProjectAPIController::class)->name('projects');
+        Route::get('files/{project}', FileAPIController::class)->name('files');
         Route::get('users', UserAPIController::class)->name('users');
         Route::get('users-with-role/{role}', [UserAPIController::class, 'usersWithRole'])->name('users-with-role');
         Route::get('roles', RoleAPIController::class)->name('roles');
