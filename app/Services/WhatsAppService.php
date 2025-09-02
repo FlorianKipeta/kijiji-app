@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Message;
 use App\Models\Project;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use OpenAI\Laravel\Facades\OpenAI;
 
 class WhatsAppService
@@ -33,6 +34,8 @@ class WhatsAppService
             'max_output_tokens' => 500,
             'temperature' => 0.7,
         ]);
+
+        Log::debug("Response: ", [$res]);
 
 
         Http::withHeaders([
