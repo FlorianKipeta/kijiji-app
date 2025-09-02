@@ -1,7 +1,11 @@
 <?php
 
 use App\Jobs\ReceiveMessageJob;
+use App\Services\WhatsAppRespondsTo;
 use App\Services\WhatsAppSignatureValidator;
+use Spatie\WebhookClient\Models\WebhookCall;
+use Spatie\WebhookClient\WebhookProfile\ProcessEverythingWebhookProfile;
+use Spatie\WebhookClient\WebhookResponse\DefaultRespondsTo;
 
 return [
     'configs' => [
@@ -34,18 +38,18 @@ return [
             /*
              * This class determines if the webhook call should be stored and processed.
              */
-            'webhook_profile' => \Spatie\WebhookClient\WebhookProfile\ProcessEverythingWebhookProfile::class,
+            'webhook_profile' => ProcessEverythingWebhookProfile::class,
 
             /*
              * This class determines the response on a valid webhook call.
              */
-            'webhook_response' => \Spatie\WebhookClient\WebhookResponse\DefaultRespondsTo::class,
+            'webhook_response' => WhatsAppRespondsTo::class,
 
             /*
              * The classname of the model to be used to store webhook calls. The class should
              * be equal or extend Spatie\WebhookClient\Models\WebhookCall.
              */
-            'webhook_model' => \Spatie\WebhookClient\Models\WebhookCall::class,
+            'webhook_model' => WebhookCall::class,
 
             /*
              * In this array, you can pass the headers that should be stored on
