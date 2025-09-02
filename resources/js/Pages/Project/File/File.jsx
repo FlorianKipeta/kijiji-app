@@ -28,12 +28,16 @@ export default function File({canCreate, canDelete, project}) {
 
     return (
         <div className="card bg-white shadow-lg rounded-xl p-6 mb-6 border border-gray-200">
+            <div className="flex items-center justify-between border-b  mb-4">
+                <h2 className="text-lg font-bold text-gray-900">Uploaded Files</h2>
             <div className='flex justify-end mb-4'>
+
                 {
                     canCreate &&
                     <PrimaryBtn onClick={() => setShowAddModal(true)}
-                            labelName='New' className="mr-4" Icon={() => <PlusCircleIcon className="h-5 mr-2"/>} />
+                            labelName='File' className="mr-4" Icon={() => <PlusCircleIcon className="h-5 mr-2"/>} />
                 }
+            </div>
             </div>
 
             <FileTable
