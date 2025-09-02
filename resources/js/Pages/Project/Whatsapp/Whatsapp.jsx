@@ -119,7 +119,7 @@ export default function Whatsapp({canCreate, project}) {
             </div>
             {
                 project?.whatsapp_account === null ?
-                    <span>No WhatsApp account is not linked to this project.</span> :
+                    <div className="mt-4">No WhatsApp account linked to this project.</div> :
                     <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
                         <div>
                             <dt className="text-sm font-medium text-gray-500">Business ID</dt>
@@ -136,6 +136,10 @@ export default function Whatsapp({canCreate, project}) {
                         <div>
                             <dt className="text-sm font-medium text-gray-500">Status</dt>
                             <dd className="mt-1 text-sm text-gray-900">{project?.whatsapp_account?.status}</dd>
+                        </div>
+                        <div>
+                            <dt className="text-sm font-medium text-gray-500">Code</dt>
+                            <dd className="mt-1 text-sm text-gray-900">{project?.whatsapp_account?.code}</dd>
                         </div>
                     </dl>
             }
