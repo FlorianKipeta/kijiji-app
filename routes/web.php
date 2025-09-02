@@ -78,5 +78,5 @@ Route::middleware(['auth', MustChangePassword::class])->group(function () {
         Route::get('roles', RoleAPIController::class)->name('roles');
     });
 });
-
+Route::webhooks('webhook');
 require __DIR__.'/auth.php';

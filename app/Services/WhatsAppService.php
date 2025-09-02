@@ -2,12 +2,14 @@
 
 namespace App\Services;
 
+use App\Models\Customer;
+use App\Models\Message;
 use App\Models\Project;
 use Illuminate\Support\Facades\Http;
 
 class WhatsAppService
 {
-    public static function sendWhatsAppMessage(Project $project, string $phone, string $message): void
+    public static function sendWhatsAppMessage(Project $project, Customer $customer, Message $message): void
     {
         Http::withHeaders([
             'Authorization' => 'Bearer '.$project->whatsappAccount->code,
@@ -19,7 +21,7 @@ class WhatsAppService
                     'text' => ['body' => $message, 'preview_url' => false],
                 ],
                     ['messaging_product' => 'whatsapp', 'recipient_type' => 'individual',
-                        'to' => str_replace('+', '', $phone),
+                        'to' => str_replace('+', '', $customer->phone),
                     ]));
     }
 }

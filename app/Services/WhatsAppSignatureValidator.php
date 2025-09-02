@@ -2,24 +2,13 @@
 
 namespace App\Services;
 
-use App\Models\Project;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Request;
+use Spatie\WebhookClient\SignatureValidator\SignatureValidator;
 
-class WhatsAppService
+class WhatsAppSignatureValidator implements SignatureValidator
 {
-    public static function sendWhatsAppMessage(Project $project, string $phone, string $message): void
+    public function isValid(Request $request, \Spatie\WebhookClient\WebhookConfig $config): bool
     {
-        Http::withHeaders([
-            'Authorization' => 'Bearer '.$project->whatsappAccount->code,
-            'Content-Type' => 'application/json',
-        ])
-            ->post('https://graph.facebook.com/v23.0/'.$project->whatsappAccount->phone_number_id.'/messages',
-                array_merge([
-                    'type' => 'text',
-                    'text' => ['body' => $message, 'preview_url' => false],
-                ],
-                    ['messaging_product' => 'whatsapp', 'recipient_type' => 'individual',
-                        'to' => str_replace('+', '', $phone),
-                    ]));
+        return true;
     }
 }

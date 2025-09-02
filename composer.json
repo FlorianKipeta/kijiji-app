@@ -17,6 +17,7 @@
         "smalot/pdfparser": "^2.12",
         "spatie/laravel-permission": "^6.10",
         "spatie/laravel-sluggable": "^3.7",
+        "spatie/laravel-webhook-client": "^3.4",
         "tightenco/ziggy": "^2.0"
     },
     "require-dev": {
