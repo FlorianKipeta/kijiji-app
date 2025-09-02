@@ -6,6 +6,7 @@ import {PrimaryBadge} from "@components/badges/index.jsx";
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from "@components/tabs/index.jsx";
 import FileLayout from "@pages/Project/File/FileLayout.jsx";
 import File from "@pages/Project/File/File.jsx";
+import Whatsapp from "@pages/Project/Whatsapp/Whatsapp.jsx";
 
 export default function Show({project, canCreateFile, canDeleteFile}) {
 
@@ -63,7 +64,7 @@ export default function Show({project, canCreateFile, canDeleteFile}) {
 
                 </div>
                 <div>
-
+                    <Whatsapp project={project} canCreate={canCreateFile} canDelete={canDeleteFile} />
                 </div>
 
             </div>
