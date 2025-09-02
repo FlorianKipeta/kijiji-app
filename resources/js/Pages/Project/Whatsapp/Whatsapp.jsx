@@ -126,7 +126,7 @@ export default function Whatsapp({canCreate, project}) {
                         </div>
                         <div>
                             <dt className="text-sm font-medium text-gray-500">Phone No</dt>
-                            <dd className="mt-1 text-sm text-gray-900">+{formatPhoneNumber(project?.whatsapp_account?.display_phone_number)}</dd>
+                            <dd className="mt-1 text-sm text-gray-900">{project?.whatsapp_account?.display_phone_number}</dd>
                         </div>
                         <div>
                             <dt className="text-sm font-medium text-gray-500">Phone Number ID</dt>
