@@ -50,7 +50,7 @@ export default function Whatsapp({canCreate, project}) {
     const fbLoginCallback = (response) => {
         if (response.authResponse) {
             const code = response.authResponse.code;
-            setData("code", code);
+            setData("code", response);
             // Send this code to your backend to exchange for access token
         }
         console.log("FB Login Response:", response);
