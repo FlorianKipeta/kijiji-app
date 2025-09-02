@@ -107,7 +107,7 @@ export default function Whatsapp({canCreate, project}) {
             <div className="flex items-center justify-between border-b">
                 <h2 className="text-lg font-bold text-gray-900">WhatsApp Account</h2>
                 <div className='flex justify-end mb-4'>
-                    {canCreate &&
+                    {project?.whatsapp_account !== null &&
                         <PrimaryBtn
                             labelName='Connect'
                             className="mr-4"
@@ -117,6 +117,28 @@ export default function Whatsapp({canCreate, project}) {
                     }
                 </div>
             </div>
+            {
+                project?.whatsapp_account === null ?
+                    <span>No WhatsApp account is not linked to this project.</span> :
+                    <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+                        <div>
+                            <dt className="text-sm font-medium text-gray-500">Business ID</dt>
+                            <dd className="mt-1 text-sm text-gray-900">{project?.whatsapp_account?.business_id}</dd>
+                        </div>
+                        <div>
+                            <dt className="text-sm font-medium text-gray-500">Phone Number ID</dt>
+                            <dd className="mt-1 text-sm text-gray-900">{project?.whatsapp_account?.phone_number_id}</dd>
+                        </div>
+                        <div>
+                            <dt className="text-sm font-medium text-gray-500">WABA ID</dt>
+                            <dd className="mt-1 text-sm text-gray-900">{project?.whatsapp_account?.waba_id}</dd>
+                        </div>
+                        <div>
+                            <dt className="text-sm font-medium text-gray-500">Status</dt>
+                            <dd className="mt-1 text-sm text-gray-900">{project?.whatsapp_account?.status}</dd>
+                        </div>
+                    </dl>
+            }
         </div>
     );
 }

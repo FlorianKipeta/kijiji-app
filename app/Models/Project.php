@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\HasCreator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
@@ -40,9 +41,9 @@ class Project extends Model
         return $this->hasMany(File::class);
     }
 
-    public function whatsappAccounts(): HasMany
+    public function whatsappAccount(): HasOne
     {
-        return $this->hasMany(WhatsappAccount::class);
+        return $this->hasOne(WhatsappAccount::class);
     }
 
 
