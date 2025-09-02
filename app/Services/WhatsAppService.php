@@ -17,7 +17,7 @@ class WhatsAppService
             'model' => $project->model,
             "tools" => [[
                 "type" => "file_search",
-                "vector_store_ids" => [$project->vector_store_id],
+                "vector_store_ids" => [$project->vector_store],
                 "max_num_results" => 20
             ]],
             'input' => [
