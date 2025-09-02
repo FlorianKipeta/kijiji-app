@@ -2,6 +2,7 @@ import {PrimaryBtn} from '@components/buttons';
 import React, {useEffect} from 'react';
 import {ChatBubbleBottomCenterIcon} from "@heroicons/react/16/solid/index.js";
 import {useForm, usePage} from "@inertiajs/react";
+import {formatPhoneNumber} from "react-phone-number-input";
 
 export default function Whatsapp({canCreate, project}) {
 
@@ -107,14 +108,12 @@ export default function Whatsapp({canCreate, project}) {
             <div className="flex items-center justify-between border-b">
                 <h2 className="text-lg font-bold text-gray-900">WhatsApp Account</h2>
                 <div className='flex justify-end mb-4'>
-                    {project?.whatsapp_account !== null &&
-                        <PrimaryBtn
-                            labelName='Connect'
-                            className="mr-4"
-                            Icon={() => <ChatBubbleBottomCenterIcon className="h-5 mr-2"/>}
-                            onClick={launchWhatsAppSignup} // ⬅️ like your HTML button
-                        />
-                    }
+                    <PrimaryBtn
+                        labelName='Connect'
+                        className="mr-4"
+                        Icon={() => <ChatBubbleBottomCenterIcon className="h-5 mr-2"/>}
+                        onClick={launchWhatsAppSignup} // ⬅️ like your HTML button
+                    />
                 </div>
             </div>
             {
@@ -122,28 +121,20 @@ export default function Whatsapp({canCreate, project}) {
                     <div className="mt-4">No WhatsApp account linked to this project.</div> :
                     <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
                         <div>
-                            <dt className="text-sm font-medium text-gray-500">Business ID</dt>
-                            <dd className="mt-1 text-sm text-gray-900">{project?.whatsapp_account?.business_id}</dd>
+                            <dt className="text-sm font-medium text-gray-500">Business Name</dt>
+                            <dd className="mt-1 text-sm text-gray-900">{project?.whatsapp_account?.verified_name}</dd>
+                        </div>
+                        <div>
+                            <dt className="text-sm font-medium text-gray-500">Phone No</dt>
+                            <dd className="mt-1 text-sm text-gray-900">+{formatPhoneNumber(project?.whatsapp_account?.display_phone_number)}</dd>
                         </div>
                         <div>
                             <dt className="text-sm font-medium text-gray-500">Phone Number ID</dt>
                             <dd className="mt-1 text-sm text-gray-900">{project?.whatsapp_account?.phone_number_id}</dd>
                         </div>
                         <div>
-                            <dt className="text-sm font-medium text-gray-500">WABA ID</dt>
-                            <dd className="mt-1 text-sm text-gray-900">{project?.whatsapp_account?.waba_id}</dd>
-                        </div>
-                        <div>
-                            <dt className="text-sm font-medium text-gray-500">Status</dt>
-                            <dd className="mt-1 text-sm text-gray-900">{project?.whatsapp_account?.status}</dd>
-                        </div>
-                        <div>
-                            <dt className="text-sm font-medium text-gray-500">Code</dt>
-                            <dd className="mt-1 text-sm text-gray-900">{project?.whatsapp_account?.code}</dd>
-                        </div>
-                        <div>
-                            <dt className="text-sm font-medium text-gray-500">Access</dt>
-                            <dd className="mt-1 text-sm text-gray-900">{project?.whatsapp_account?.access_token}</dd>
+                            <dt className="text-sm font-medium text-gray-500">Platform Type</dt>
+                            <dd className="mt-1 text-sm text-gray-900">{project?.whatsapp_account?.platform_type}</dd>
                         </div>
                     </dl>
             }

@@ -16,10 +16,10 @@ class WhatsappController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'values.phone_number_id' => 'required|string',
-            'values.waba_id'         => 'required|string',
-            'values.business_id'     => 'required|string',
+            'values.waba_id' => 'required|string',
+            'values.business_id' => 'required|string',
             'code.authResponse.code' => 'required|string',
-            'code.status'            => 'required|string',
+            'code.status' => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -29,41 +29,77 @@ class WhatsappController extends Controller
 
         $validated = $validator->validated();
 
-        $appId     = config('services.facebook.app_id');
+        $appId = config('services.facebook.app_id');
         $appSecret = config('services.facebook.app_secret');
-        $redirect  = config('services.facebook.redirect_uri');
+        $redirect = config('services.facebook.redirect_uri');
 
         $code = $validated['code']['authResponse']['code'];
 
         // Call Facebook OAuth API to get access token
-        $response = Http::get('https://graph.facebook.com/v23.0/oauth/access_token', [
-            'client_id'     => $appId,
-            'redirect_uri'  => $redirect,
+        $phoneNumbersResponse = Http::get('https://graph.facebook.com/v23.0/oauth/access_token', [
+            'client_id' => $appId,
+            'redirect_uri' => $redirect,
             'client_secret' => $appSecret,
-            'code'          => $code,
+            'code' => $code,
         ]);
 
-        if ($response->failed()) {
+        if ($phoneNumbersResponse->failed()) {
             return redirect()->back()
                 ->with('error', 'Failed to retrieve access token from Facebook.');
         }
 
-        $data = $response->json();
+        $data = $phoneNumbersResponse->json();
         $accessToken = $data['access_token'] ?? null;
 
-        if (! $accessToken) {
+        if (!$accessToken) {
             return redirect()->back()
                 ->with('error', 'No access token returned from Facebook.');
         }
 
+        $phoneNumberID = $validated['values']['phone_number_id'];
+        $wabaID = $validated['values']['waba_id'];
+
+        $register = Http::get('https://graph.facebook.com/v23.0/' . $phoneNumberID . '/register', [
+            'messaging_product' => "whatsapp",
+            'pin' => "123456"
+        ]);
+
+        if ($register->failed()) {
+            return redirect()->back()
+                ->with('error', 'Failed to register account.');
+        }
+
+        $phoneNumbersResponse = Http::withToken($accessToken)
+            ->get("https://graph.facebook.com/v23.0/{$wabaID}/phone_numbers");
+
+        $phoneNumbersData = $phoneNumbersResponse->json('data');
+
+        if (!empty($phoneNumbersData)) {
+            $phoneNumber = $phoneNumbersData[0];
+
+            $project->whatsappAccount()->updateOrCreate(
+                ['project_id' => $project->id],
+                [
+                    'phone_number_id' => $phoneNumberID,
+                    'waba_id'         => $wabaID,
+                    'business_id'     => $validated['values']['business_id'],
+                    'code'            => $code,
+                    'status'          => $validated['code']['status'],
+                    'access_token'    => $accessToken,
+                    'display_phone_number' => $phoneNumber['display_phone_number'],
+                    'verified_name'        => $phoneNumber['verified_name'],
+                    'platform_type'        => $phoneNumber['platform_type'],
+                ]
+            );
+        }
         // Save WhatsApp account with access token
         $project->whatsappAccount()->updateOrCreate([
-            'phone_number_id' => $validated['values']['phone_number_id'],
-            'waba_id'         => $validated['values']['waba_id'],
-            'business_id'     => $validated['values']['business_id'],
-            'code'            => $code,
-            'status'          => $validated['code']['status'],
-            'access_token'    => $accessToken, // ✅ make sure your DB table has this column
+            'phone_number_id' => $phoneNumberID,
+            'waba_id' => $wabaID,
+            'business_id' => $validated['values']['business_id'],
+            'code' => $code,
+            'status' => $validated['code']['status'],
+            'access_token' => $accessToken, // ✅ make sure your DB table has this column
         ]);
 
         return redirect()->back()->with('success', 'WhatsApp account connected successfully!');
