@@ -7,10 +7,16 @@ export default function Whatsapp({canCreate, project}) {
 
     const {data, setData, reset, post, processing} = useForm({
         values: null,
-        code: ''
+        code: null
     });
 
     const errors = usePage().props.errors;
+
+    useEffect(() => {
+        if (data.code && data.values) {
+            handleSubmit();
+        }
+    }, [data.code]);
 
     function handleSubmit(event) {
 
@@ -51,14 +57,6 @@ export default function Whatsapp({canCreate, project}) {
         if (response.authResponse) {
             const code = response.authResponse.code;
             setData("code", response);
-
-            post(route('projects.whatsapp.store', project.slug), {
-                onSuccess: () => {
-                    reset();
-                },
-                preserveScroll: true,
-                preserveState: true
-            });
             // Send this code to your backend to exchange for access token
         }
         console.log("FB Login Response:", response);
