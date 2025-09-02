@@ -54,24 +54,21 @@ export default function FileForm({
                     </div>
                     :
                     <DropZone
-                        message="(Accepted: .pdf, .docx, .txt, .md, .csv, .json, .html, .xml files under 5MB)"
-                        maxSize={5 * 1024 * 1024} // 5MB
+                        message="(Accepted: .pdf, .doc, .docx, .txt files under 5MB)"
+                        maxSize={10 * 1024 * 1024} // 5MB
                         maxFiles={1}
                         accept={{
                             'application/pdf': ['.pdf'],
+                            'application/msword': ['.doc'],
                             'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],
-                            'text/plain': ['.txt'],
-                            'text/markdown': ['.md'],
-                            'text/csv': ['.csv'],
-                            'application/json': ['.json'],
-                            'text/html': ['.html'],
-                            'application/xml': ['.xml']
+                            'text/plain': ['.txt']
                         }}
                         onDropAccepted={files => setData('file', files[0])}
                         onDropRejected={() =>
-                            toast.warning('Please upload a supported file type (PDF, DOCX, TXT, CSV, etc.) under 5MB.')
+                            toast.warning('Please upload a supported file type (PDF, DOC, DOCX, TXT) under 5MB.')
                         }
                     />
+
 
             }
             <span className="text-red-500 text-sm">{errors.file}</span>

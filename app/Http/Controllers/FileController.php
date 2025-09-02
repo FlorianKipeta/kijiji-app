@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\File;
 use App\Models\Project;
+use App\Services\FileConverterService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -15,18 +16,21 @@ class FileController extends Controller
     public function store(Request $request, Project $project): RedirectResponse
     {
         $request->validate([
-            'file' => 'required|file|max:10240', // max 10MB
+            'file' => 'required|file|mimes:pdf,doc,docx,txt|max:10240', // only allowed types
         ]);
 
         $uploadedFile = $request->file('file');
 
+        $converter = app(FileConverterService::class);
+
+        $text = $converter->convertToText($uploadedFile);
+
         $originalName = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
-        $extension = $uploadedFile->getClientOriginalExtension();
-
         $safeName = Str::slug($originalName);
-        $fileName = $safeName.'_'.time().'.'.$extension;
+        $fileName = $safeName.'_'.time().'.txt';
 
-        $path = $uploadedFile->storeAs("project_files/{$project->id}", $fileName, 'local');
+        $path = "project_files/{$project->id}/{$fileName}";
+        Storage::disk('local')->put($path, $text);
 
         $absolutePath = storage_path("app/private/{$path}");
 
@@ -48,15 +52,16 @@ class FileController extends Controller
         ]);
 
         File::query()->create([
-            'name' => $uploadedFile->getClientOriginalName(),
+            'name' => $fileName, // converted .txt name
             'path' => $path,
-            'file_id' => $openAiFile->id, // stores OpenAI file id
-            'size' => $uploadedFile->getSize(),
+            'file_id' => $openAiFile->id,
+            'size' => strlen($text),
             'project_id' => $project->id,
             'created_by' => auth()->id(),
         ]);
 
-        return redirect()->back()->with('success', 'File uploaded successfully');
+        return redirect()->back()->with('success', 'File converted to TXT and uploaded successfully');
+
     }
 
     public function destroy(File $file): RedirectResponse

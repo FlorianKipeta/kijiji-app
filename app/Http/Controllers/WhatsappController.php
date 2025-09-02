@@ -7,10 +7,7 @@ use App\Models\Project;
 use App\Models\WhatsappAccount;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
-use OpenAI\Laravel\Facades\OpenAI;
 
 class WhatsappController extends Controller
 {
