@@ -79,8 +79,11 @@ export default function Whatsapp({canCreate, project}) {
                 const outputData = JSON.parse(event.data);
                 if (outputData.type === 'WA_EMBEDDED_SIGNUP') {
                     if (outputData.event === 'FINISH') {
-                        setData("values", outputData.data);
-                        handleSubmit();
+                        setData("values", outputData.data, {
+                            onChange: () => {
+                                handleSubmit();
+                            }
+                        });
                         console.log("✅ Finished", outputData.data);
                     } else if (outputData.event === 'CANCEL') {
                         console.warn("⚠️ Cancel at", outputData.data.current_step);
