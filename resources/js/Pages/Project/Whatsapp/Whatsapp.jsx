@@ -6,7 +6,7 @@ import {useForm, usePage} from "@inertiajs/react";
 export default function Whatsapp({canCreate, project}) {
 
     const {data, setData, reset, post, processing} = useForm({
-        data: null,
+        values: null,
         code: ''
     });
 
@@ -76,16 +76,16 @@ export default function Whatsapp({canCreate, project}) {
                 return;
             }
             try {
-                const data = JSON.parse(event.data);
-                if (data.type === 'WA_EMBEDDED_SIGNUP') {
-                    if (data.event === 'FINISH') {
-                        setData("data", data.data);
+                const outputData = JSON.parse(event.data);
+                if (outputData.type === 'WA_EMBEDDED_SIGNUP') {
+                    if (outputData.event === 'FINISH') {
+                        setData("values", outputData.data);
                         handleSubmit();
-                        console.log("✅ Finished", data.data);
-                    } else if (data.event === 'CANCEL') {
-                        console.warn("⚠️ Cancel at", data.data.current_step);
-                    } else if (data.event === 'ERROR') {
-                        console.error("❌ Error:", data.data.error_message);
+                        console.log("✅ Finished", outputData.data);
+                    } else if (outputData.event === 'CANCEL') {
+                        console.warn("⚠️ Cancel at", outputData.data.current_step);
+                    } else if (outputData.event === 'ERROR') {
+                        console.error("❌ Error:", outputData.data.error_message);
                     }
                 }
             } catch {

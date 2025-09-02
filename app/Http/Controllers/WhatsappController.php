@@ -18,8 +18,6 @@ class WhatsappController extends Controller
 
 
 
-
-        return redirect()->back()->with('success', 'File uploaded successfully');
     }
 
     public function destroy(File $file): RedirectResponse

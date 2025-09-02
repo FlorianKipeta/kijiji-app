@@ -39,4 +39,11 @@ class Project extends Model
     {
         return $this->hasMany(File::class);
     }
+
+    public function whatsappAccounts(): HasMany
+    {
+        return $this->hasMany(WhatsappAccount::class);
+    }
+
+
 }
