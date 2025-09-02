@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\File;
 use App\Models\Project;
 use App\Models\WhatsappAccount;
 use Illuminate\Http\RedirectResponse;
@@ -51,7 +50,7 @@ class WhatsappController extends Controller
         $data = $phoneNumbersResponse->json();
         $accessToken = $data['access_token'] ?? null;
 
-        if (!$accessToken) {
+        if (! $accessToken) {
             return redirect()->back()
                 ->with('error', 'No access token returned from Facebook.');
         }
@@ -60,10 +59,10 @@ class WhatsappController extends Controller
         $wabaID = $validated['values']['waba_id'];
 
         $register = Http::withToken($accessToken)
-            ->get('https://graph.facebook.com/v23.0/' . $phoneNumberID . '/register', [
-            'messaging_product' => "whatsapp",
-            'pin' => "123456"
-        ]);
+            ->get('https://graph.facebook.com/v23.0/'.$phoneNumberID.'/register', [
+                'messaging_product' => 'whatsapp',
+                'pin' => '123456',
+            ]);
 
         if ($register->failed()) {
             return redirect()->back()
@@ -75,21 +74,21 @@ class WhatsappController extends Controller
 
         $phoneNumbersData = $phoneNumbersResponse->json('data');
 
-        if (!empty($phoneNumbersData)) {
+        if (! empty($phoneNumbersData)) {
             $phoneNumber = $phoneNumbersData[0];
 
             $project->whatsappAccount()->updateOrCreate(
                 ['project_id' => $project->id],
                 [
                     'phone_number_id' => $phoneNumberID,
-                    'waba_id'         => $wabaID,
-                    'business_id'     => $validated['values']['business_id'],
-                    'code'            => $code,
-                    'status'          => $validated['code']['status'],
-                    'access_token'    => $accessToken,
+                    'waba_id' => $wabaID,
+                    'business_id' => $validated['values']['business_id'],
+                    'code' => $code,
+                    'status' => $validated['code']['status'],
+                    'access_token' => $accessToken,
                     'display_phone_number' => $phoneNumber['display_phone_number'],
-                    'verified_name'        => $phoneNumber['verified_name'],
-                    'platform_type'        => $phoneNumber['platform_type'],
+                    'verified_name' => $phoneNumber['verified_name'],
+                    'platform_type' => $phoneNumber['platform_type'],
                 ]
             );
         }

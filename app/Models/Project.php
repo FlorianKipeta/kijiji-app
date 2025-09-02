@@ -45,6 +45,4 @@ class Project extends Model
     {
         return $this->hasOne(WhatsappAccount::class);
     }
-
-
 }

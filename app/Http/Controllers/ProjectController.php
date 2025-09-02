@@ -140,7 +140,7 @@ EOT;
         return inertia('Project/Show', [
             'canCreateFile' => auth()->user()->can('create file'),
             'canDeleteFile' => auth()->user()->can('delete file'),
-            'project' => new ProjectResource($project->load('creator','whatsappAccount')),
+            'project' => new ProjectResource($project->load('creator', 'whatsappAccount')),
         ]);
     }
 

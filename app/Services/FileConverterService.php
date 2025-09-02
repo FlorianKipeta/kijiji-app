@@ -5,8 +5,8 @@ namespace App\Services;
 use Exception;
 use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextRun;
-use Smalot\PdfParser\Parser as PdfParser;
 use PhpOffice\PhpWord\IOFactory as WordIOFactory;
+use Smalot\PdfParser\Parser as PdfParser;
 
 class FileConverterService
 {
@@ -25,8 +25,9 @@ class FileConverterService
 
     private function convertPdfToText(string $path): string
     {
-        $parser = new PdfParser();
+        $parser = new PdfParser;
         $pdf = $parser->parseFile($path);
+
         return $pdf->getText();
     }
 
@@ -39,7 +40,7 @@ class FileConverterService
             foreach ($section->getElements() as $element) {
                 // Direct text
                 if ($element instanceof Text) {
-                    $text .= $element->getText() . "\n";
+                    $text .= $element->getText()."\n";
                 }
                 // TextRun (multiple text parts)
                 elseif ($element instanceof TextRun) {
@@ -55,5 +56,4 @@ class FileConverterService
 
         return $text;
     }
-
 }

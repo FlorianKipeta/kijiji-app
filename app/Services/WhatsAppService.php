@@ -10,10 +10,10 @@ class WhatsAppService
     public static function sendWhatsAppMessage(Project $project, string $phone, string $message): void
     {
         Http::withHeaders([
-            'Authorization' => 'Bearer ' . $project->whatsappAccount->code,
+            'Authorization' => 'Bearer '.$project->whatsappAccount->code,
             'Content-Type' => 'application/json',
         ])
-            ->post('https://graph.facebook.com/v23.0/' . $project->whatsappAccount->phone_number_id . '/messages',
+            ->post('https://graph.facebook.com/v23.0/'.$project->whatsappAccount->phone_number_id.'/messages',
                 array_merge([
                     'type' => 'text',
                     'text' => ['body' => $message, 'preview_url' => false],
@@ -22,6 +22,4 @@ class WhatsAppService
                         'to' => str_replace('+', '', $phone),
                     ]));
     }
-
-
 }
