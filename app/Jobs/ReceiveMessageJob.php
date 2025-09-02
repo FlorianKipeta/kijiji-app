@@ -3,7 +3,6 @@
 namespace App\Jobs;
 
 use App\Actions\GetCustomerLocation;
-use App\Events\CustomerCreated;
 use App\Models\Customer;
 use App\Models\Message;
 use App\Models\Project;
@@ -37,7 +36,7 @@ class ReceiveMessageJob extends ProcessWebhookJob
         $phoneNumberID = $validatedData['metadata']['phone_number_id'] ?? null;
 
         $whatsAppAccount = WhatsAppAccount::query()->where('phone_number_id', $phoneNumberID)->first();
-        if ( $whatsAppAccount) {
+        if ($whatsAppAccount) {
             $project = $whatsAppAccount->project;
 
             $customer = $this->getOrCreateCustomer($contacts, $message);
@@ -46,7 +45,6 @@ class ReceiveMessageJob extends ProcessWebhookJob
                 $this->handleMessage($project, $customer, $message);
             }
         }
-
 
     }
 
@@ -82,7 +80,7 @@ class ReceiveMessageJob extends ProcessWebhookJob
             Message::TEXT_MESSAGE => $this->createTextMessage($project, $customer, $message['text']['body'], $message['id']),
             Message::BUTTON_MESSAGE => $this->createTextMessage($project, $customer, $message['button']['text'], $message['id']),
             Message::IMAGE_MESSAGE, Message::AUDIO_MESSAGE, Message::VIDEO_MESSAGE, Message::DOCUMENT_MESSAGE, Message::STICKER_MESSAGE => $this->processMediaMessage($project, $message, $customer),
-            default => throw new \InvalidArgumentException('Unknown message type: ' . $messageType),
+            default => throw new \InvalidArgumentException('Unknown message type: '.$messageType),
         };
     }
 
@@ -105,10 +103,8 @@ class ReceiveMessageJob extends ProcessWebhookJob
         //
     }
 
-
-
     private function continueConversation(Project $project, Customer $customer, Message $message): void
     {
-        WhatsAppService::sendWhatsAppMessage($project, $customer,$message);
+        WhatsAppService::sendWhatsAppMessage($project, $customer, $message);
     }
 }

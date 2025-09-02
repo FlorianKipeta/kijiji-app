@@ -5,7 +5,6 @@ use App\Services\WhatsAppRespondsTo;
 use App\Services\WhatsAppSignatureValidator;
 use Spatie\WebhookClient\Models\WebhookCall;
 use Spatie\WebhookClient\WebhookProfile\ProcessEverythingWebhookProfile;
-use Spatie\WebhookClient\WebhookResponse\DefaultRespondsTo;
 
 return [
     'configs' => [

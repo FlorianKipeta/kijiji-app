@@ -12,5 +12,6 @@ class WebhookVerificationController extends Controller
             return response($request->input('hub_challenge'), 200);
         }
 
-        return response('Forbidden', 403);    }
+        return response('Forbidden', 403);
+    }
 }

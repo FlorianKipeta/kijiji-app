@@ -34,10 +34,10 @@ class AppServiceProvider extends ServiceProvider
             return $user->hasRole('Super Admin') ? true : null;
         });
 
-//        Event::listen(
-//            TenderUpdated::class,
-//            SendTenderUpdatesNotification::class,
-//        );
+        //        Event::listen(
+        //            TenderUpdated::class,
+        //            SendTenderUpdatesNotification::class,
+        //        );
 
     }
 }
