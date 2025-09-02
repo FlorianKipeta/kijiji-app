@@ -141,6 +141,10 @@ export default function Whatsapp({canCreate, project}) {
                             <dt className="text-sm font-medium text-gray-500">Code</dt>
                             <dd className="mt-1 text-sm text-gray-900">{project?.whatsapp_account?.code}</dd>
                         </div>
+                        <div>
+                            <dt className="text-sm font-medium text-gray-500">Access</dt>
+                            <dd className="mt-1 text-sm text-gray-900">{project?.whatsapp_account?.access_token}</dd>
+                        </div>
                     </dl>
             }
         </div>
