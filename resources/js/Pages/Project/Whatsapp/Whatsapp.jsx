@@ -1,8 +1,29 @@
-import { PrimaryBtn } from '@components/buttons';
-import React, { useEffect } from 'react';
-import { ChatBubbleBottomCenterIcon } from "@heroicons/react/16/solid/index.js";
+import {PrimaryBtn} from '@components/buttons';
+import React, {useEffect} from 'react';
+import {ChatBubbleBottomCenterIcon} from "@heroicons/react/16/solid/index.js";
+import {useForm, usePage} from "@inertiajs/react";
 
-export default function Whatsapp({ canCreate }) {
+export default function Whatsapp({canCreate, project}) {
+
+    const {data, setData, reset, post, processing} = useForm({
+        data: null,
+        code: ''
+    });
+
+    const errors = usePage().props.errors;
+
+    function handleSubmit(event) {
+
+        event?.preventDefault();
+
+        post(route('projects.whatsapp.store', project.slug), {
+            onSuccess: () => {
+                reset();
+            },
+            preserveScroll: true,
+            preserveState: true
+        });
+    }
 
     // Load FB SDK once
     useEffect(() => {
@@ -29,6 +50,7 @@ export default function Whatsapp({ canCreate }) {
     const fbLoginCallback = (response) => {
         if (response.authResponse) {
             const code = response.authResponse.code;
+            setData("code", code);
             // Send this code to your backend to exchange for access token
         }
         console.log("FB Login Response:", response);
@@ -40,7 +62,7 @@ export default function Whatsapp({ canCreate }) {
                 config_id: '1089125803333184', // WhatsApp Embedded Signup config
                 response_type: 'code',
                 override_default_response_type: true,
-                extras: { version: "v3" },
+                extras: {version: "v3"},
             });
         } else {
             console.warn("FB SDK not loaded yet");
@@ -57,6 +79,8 @@ export default function Whatsapp({ canCreate }) {
                 const data = JSON.parse(event.data);
                 if (data.type === 'WA_EMBEDDED_SIGNUP') {
                     if (data.event === 'FINISH') {
+                        setData("data", data.data);
+                        handleSubmit();
                         console.log("✅ Finished", data.data);
                     } else if (data.event === 'CANCEL') {
                         console.warn("⚠️ Cancel at", data.data.current_step);
@@ -82,7 +106,7 @@ export default function Whatsapp({ canCreate }) {
                         <PrimaryBtn
                             labelName='Connect'
                             className="mr-4"
-                            Icon={() => <ChatBubbleBottomCenterIcon className="h-5 mr-2" />}
+                            Icon={() => <ChatBubbleBottomCenterIcon className="h-5 mr-2"/>}
                             onClick={launchWhatsAppSignup} // ⬅️ like your HTML button
                         />
                     }
