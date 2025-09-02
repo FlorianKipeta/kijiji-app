@@ -45,7 +45,7 @@ class WhatsAppService
             ->post('https://graph.facebook.com/v23.0/685819414623195/messages',
                 array_merge([
                     'type' => 'text',
-                    'text' => ['body' => $res, 'preview_url' => false],
+                    'text' => ['body' => $res->outputText, 'preview_url' => false],
                 ],
                     ['messaging_product' => 'whatsapp', 'recipient_type' => 'individual',
                         'to' => str_replace('+', '', $customer->phone),
