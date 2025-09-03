@@ -39,10 +39,10 @@ class WhatsAppService
 
 
         Http::withHeaders([
-            'Authorization' => 'Bearer '.env('WHATSAPP_TOKEN'),
+            'Authorization' => 'Bearer '.config('services.whatsapp.token'),
             'Content-Type' => 'application/json',
         ])
-            ->dump()->post(env('WHATSAPP_API_ENDPOINT'),
+            ->dump()->post(config('services.whatsapp.api_endpoint'),
                 [
                     'type' => 'text',
                     'text' => ['body' => $res->outputText, 'preview_url' => false],
