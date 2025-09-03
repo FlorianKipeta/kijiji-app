@@ -35,14 +35,17 @@ class WhatsAppService
             'temperature' => 0.7,
         ]);
 
+        $token = 'Bearer '.config('services.whatsapp.token');
+        $endpoint = config('services.whatsapp.api_endpoint');
         Log::debug("Response: ", [$res]);
+        Log::debug("Env values: ", ['endpoint' => $endpoint, 'token' => $token]);
 
 
         Http::withHeaders([
-            'Authorization' => 'Bearer '.config('services.whatsapp.token'),
+            'Authorization' => $token,
             'Content-Type' => 'application/json',
         ])
-            ->dump()->post(config('services.whatsapp.api_endpoint'),
+            ->post($endpoint,
                 [
                     'type' => 'text',
                     'text' => ['body' => $res->outputText, 'preview_url' => false],
