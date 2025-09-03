@@ -39,16 +39,15 @@ class WhatsAppService
 
 
         Http::withHeaders([
-            'Authorization' => 'Bearer ' . config('services.whatsapp.token'),
+            'Authorization' => 'Bearer '.env('WHATSAPP_TOKEN'),
             'Content-Type' => 'application/json',
         ])
-            ->post('https://graph.facebook.com/v23.0/685819414623195/messages',
-                array_merge([
+            ->post(env('WHATSAPP_API_ENDPOINT'),
+                [
                     'type' => 'text',
                     'text' => ['body' => $res->outputText, 'preview_url' => false],
-                ],
-                    ['messaging_product' => 'whatsapp', 'recipient_type' => 'individual',
+                'messaging_product' => 'whatsapp', 'recipient_type' => 'individual',
                         'to' => str_replace('+', '', $customer->phone),
-                    ]));
+                    ]);
     }
 }
