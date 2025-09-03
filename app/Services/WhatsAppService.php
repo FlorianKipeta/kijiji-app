@@ -42,7 +42,7 @@ class WhatsAppService
             'Authorization' => 'Bearer '.env('WHATSAPP_TOKEN'),
             'Content-Type' => 'application/json',
         ])
-            ->post(env('WHATSAPP_API_ENDPOINT'),
+            ->dump()->post(env('WHATSAPP_API_ENDPOINT'),
                 [
                     'type' => 'text',
                     'text' => ['body' => $res->outputText, 'preview_url' => false],
