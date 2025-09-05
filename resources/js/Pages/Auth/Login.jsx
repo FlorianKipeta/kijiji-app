@@ -90,15 +90,15 @@ export default function Login({ status, canResetPassword }) {
                 </div>
 
                 {/* Sign Up link */}
-                <p className="text-center text-sm text-gray-500 mt-6">
-                    Don’t have an account?{" "}
-                    {/*<Link*/}
-                    {/*    href={route("register")}*/}
-                    {/*    className="text-slate-600 font-medium hover:underline"*/}
-                    {/*>*/}
-                        Sign up
-                    {/*</Link>*/}
-                </p>
+                {/*<p className="text-center text-sm text-gray-500 mt-6">*/}
+                {/*    Don’t have an account?{" "}*/}
+                {/*    <Link*/}
+                {/*        href={route("register")}*/}
+                {/*        className="text-slate-600 font-medium hover:underline"*/}
+                {/*    >*/}
+                {/*        Sign up*/}
+                {/*    /!*</Link>*!/*/}
+                {/*</p>*/}
             </form>
         </GuestLayout>
     );
