@@ -5,62 +5,112 @@ import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import { PlusCircleIcon } from '@heroicons/react/24/solid';
 import CreateOpenai from '@pages/Openai/CreateOpenai.jsx';
+import EditOpenai from "@pages/Openai/EditOpenai.jsx";
 
 export default function Index({ canUpdate }) {
     const [showAddModal, setShowAddModal] = useState(false);
+    const [showFullInstructions, setShowFullInstructions] = useState(false);
 
     const { data: openai, isLoading, refetch } = useQuery(
         'openais',
         getOpenais,
-        {
-            enabled: false, // query won't automatically run
-            keepPreviousData: true,
-        }
+        { keepPreviousData: true }
     );
 
     return (
-        <Layout title="OpenAI List">
-            <div className="flex justify-end mb-4">
+        <Layout title="OpenAI Configuration">
+            <div className="flex justify-end mb-6">
                 {canUpdate && (
                     <PrimaryBtn
                         onClick={() => setShowAddModal(true)}
-                        labelName={openai ? 'Update' : 'Add Details'}
-                        className="mr-4"
-                        Icon={() => <PlusCircleIcon className="h-5 mr-2" />}
+                        labelName={openai ? `Update (${openai.id})` : 'Create'}
+                        className="flex items-center gap-2 px-4 py-2"
+                        Icon={() => <PlusCircleIcon className="h-5 w-5" />}
                     />
                 )}
             </div>
 
-            <div className="card">
+            <div className="bg-white shadow-lg rounded-xl p-6 space-y-6">
                 {isLoading ? (
-                    <p className="text-sm text-gray-500">Loading...</p>
+                    <p className="text-gray-500 text-center">Loading...</p>
                 ) : openai ? (
                     <>
-                        <div className="flex justify-between border-b pb-3 mb-3">
-                            <h2 className="text-black font-bold text-lg">{openai.name || 'No Name'}</h2>
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-4">
+                            <h2 className="text-2xl font-bold text-gray-800">{openai.model || 'No Model'}</h2>
+                            <span className="text-sm text-gray-500 mt-2 md:mt-0">
+                                Vector Store: <span className="font-medium text-gray-700">{openai.vector_store}</span>
+                            </span>
                         </div>
-                        <span className="text-sm">Configuration details go here</span>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="bg-blue-50 p-4 rounded-lg shadow-sm">
+                                <p className="text-gray-600 font-semibold">Temperature</p>
+                                <p className="text-gray-800 text-lg font-medium">{openai.temperature}</p>
+                            </div>
+                            <div className="bg-green-50 p-4 rounded-lg shadow-sm">
+                                <p className="text-gray-600 font-semibold">Max Tokens</p>
+                                <p className="text-gray-800 text-lg font-medium">{openai.max_tokens}</p>
+                            </div>
+                        </div>
+
+                        <div className="mt-4">
+                            <p className="text-gray-600 font-semibold mb-2">Instructions</p>
+                            <div className="bg-gray-50 p-4 rounded-lg max-h-64 overflow-y-auto whitespace-pre-wrap shadow-inner">
+                                {showFullInstructions
+                                    ? openai.instructions
+                                    : `${openai.instructions.substring(0, 300)}...`}
+                            </div>
+                            {openai.instructions.length > 300 && (
+                                <button
+                                    className="mt-2 text-blue-600 text-sm hover:text-blue-800 font-medium underline transition-colors"
+                                    onClick={() => setShowFullInstructions(!showFullInstructions)}
+                                >
+                                    {showFullInstructions ? 'Show Less' : 'Show More'}
+                                </button>
+                            )}
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 text-gray-700 text-sm">
+                            <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
+                                <p className="font-medium text-gray-600">Created At</p>
+                                <p>{new Date(openai.created_at).toLocaleString()}</p>
+                            </div>
+                            <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
+                                <p className="font-medium text-gray-600">Updated At</p>
+                                <p>{new Date(openai.updated_at).toLocaleString()}</p>
+                            </div>
+                        </div>
                     </>
                 ) : (
-                    <p className="text-sm text-gray-500">No OpenAI config available</p>
+                    <p className="text-gray-500 text-center py-10">No OpenAI configuration available</p>
                 )}
             </div>
 
-            <CreateOpenai
-                show={showAddModal}
-                setShow={setShowAddModal}
-                refreshOpenais={refetch}
-            />
+            {openai ? (
+                <EditOpenai
+                    show={showAddModal}
+                    setShow={setShowAddModal}
+                    refreshOpenais={refetch}
+                    openai={openai} // pass id for updating
+                />
+            ) : (
+                <CreateOpenai
+                    show={showAddModal}
+                    setShow={setShowAddModal}
+                    refreshOpenais={refetch}
+                />
+            )}
+
         </Layout>
     );
 }
 
 async function getOpenais() {
     try {
-        const response = await axios.get(route('api.openais'));
-        return response.data;
+        const response = await axios.get(route('api.openai'));
+        return response.data?.data || response.data;
     } catch (error) {
-        console.error('Failed to fetch Openais:', error);
+        console.error('Failed to fetch OpenAI config:', error);
         return null;
     }
 }

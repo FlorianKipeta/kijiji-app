@@ -67,6 +67,51 @@ class OpenaiController extends Controller
             ->with('success', 'OpenAI configuration saved successfully.');
     }
 
+    public function update(Request $request, OpenAIConfig $openai): RedirectResponse
+    {
+        $request->validate([
+            'model' => 'required|string',
+            'instructions' => 'required|string|max:255',
+            'temperature' => 'required|integer|min:0|max:1',
+            'max_tokens' => 'required|integer|min:1|max:500',
+            'key' => [
+                'required',
+                'string',
+                function ($attribute, $value, $fail) {
+                    if (!$this->validateOpenAIKey($value)) {
+                        $fail('The OpenAI API key is invalid or cannot connect.');
+                    }
+                }
+            ],
+        ]);
+
+        $project = Project::first();
+        $instructions = $this->generateInstructions(
+            $request->model,
+            $request->instructions,
+            $request->temperature,
+            $request->max_tokens,
+            $request->key,
+            $project->name
+        );
+
+        $vectorStoreID = $this->createVectorStore($project->name, $request->key);
+
+        $openai->update([
+            'model' => $request->model,
+            'instructions' => $instructions,
+            'temperature' => $request->temperature,
+            'max_tokens' => $request->max_tokens,
+            'key' => $request->key,
+            'vector_store' => $vectorStoreID,
+        ]);
+
+        return redirect()
+            ->route('openai.index')
+            ->with('success', 'OpenAI configuration updated successfully.');
+    }
+
+
     protected function validateOpenAIKey(string $key): bool
     {
         try {
