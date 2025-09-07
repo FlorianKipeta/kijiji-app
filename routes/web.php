@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\FileAPIController;
 use App\Http\Controllers\API\NotificationAPIController;
+use App\Http\Controllers\API\OpenaiAPIController;
 use App\Http\Controllers\API\ProjectAPIController;
 use App\Http\Controllers\API\RoleAPIController;
 use App\Http\Controllers\API\UserAPIController;
@@ -77,6 +78,7 @@ Route::middleware(['auth', MustChangePassword::class])->group(function () {
     |--------------------------------------------------------------------------------------------------
     */
     Route::prefix('api')->name('api.')->group(function () {
+        Route::get('openai', OpenaiAPIController::class)->name('openai');
         Route::get('projects', ProjectAPIController::class)->name('projects');
         Route::get('files/{project}', FileAPIController::class)->name('files');
         Route::get('users', UserAPIController::class)->name('users');

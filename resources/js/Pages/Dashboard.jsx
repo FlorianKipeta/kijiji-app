@@ -22,6 +22,10 @@ export default function Dashboard({project}) {
                     <span className="text-sm">{project.purpose}</span>
                 </div>
 
+                {
+
+                }
+
                 <div className="col-span-2">
 
                 </div>

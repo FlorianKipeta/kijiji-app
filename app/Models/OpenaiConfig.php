@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Openai extends Model
+class OpenaiConfig extends Model
 {
+    protected $table = 'openais';
     protected $fillable = [
         'model',
         'instructions',

@@ -58,7 +58,7 @@ export const routes = [
             },
             {
                 name: 'OpenAI',
-                url: route('dashboard'),
+                url: route('openai.index'),
                 permission: 'canViewDashboard',
                 Icon: () => <SparklesIcon className="w-5 h-5 text-slate-200" />,
             },
