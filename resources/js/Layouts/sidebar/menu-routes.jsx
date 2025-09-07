@@ -1,53 +1,116 @@
 import React from "react";
 import {
-    Bars3Icon,
     ChartPieIcon,
-    Cog8ToothIcon,
-    UserGroupIcon, UsersIcon
-} from "@heroicons/react/24/solid";
+    Squares2X2Icon,
+    UsersIcon,
+    UserGroupIcon,
+    ChatBubbleLeftRightIcon,
+    ChatBubbleOvalLeftIcon,
+    PuzzlePieceIcon,
+    SparklesIcon,
+    FolderIcon,
+    DocumentTextIcon,
+    GlobeAltIcon,
+    ShieldCheckIcon,
+} from '@heroicons/react/24/outline';
 
 
 export const routes = [
     {
         name: 'Dashboard',
         url: route('dashboard'),
-        Icon: () => (<ChartPieIcon className="w-5 h-5 text-slate-200"/>),
+        Icon: () => <ChartPieIcon className="w-5 h-5 text-slate-200" />,
         permission: 'canViewDashboard',
     },
+    // {
+    //     name: 'Projects',
+    //     url: route('projects.index'),
+    //     Icon: () => <Squares2X2Icon className="w-5 h-5 text-slate-200" />,
+    //     permission: 'canViewProjects',
+    // },
     {
-        name: 'AI Projects',
-        url: route('projects.index'),
-        Icon: () => (<Bars3Icon className="w-5 h-5 text-slate-200"/>),
-        permission: 'canViewProjects',
+        name: 'Contacts',
+        Icon: () => <UsersIcon className="w-5 h-5 text-slate-200" />,
+        routes: [
+            {
+                name: 'Customers',
+                url: route('dashboard'),
+                permission: 'canViewDashboard',
+                Icon: () => <UserGroupIcon className="w-5 h-5 text-slate-200" />,
+            },
+            {
+                name: 'Conversations',
+                url: route('dashboard'),
+                permission: 'canViewDashboard',
+                Icon: () => <ChatBubbleLeftRightIcon className="w-5 h-5 text-slate-200" />,
+            },
+        ],
     },
-    // {
-    //     name: 'Tenders',
-    //     Icon: () => (<Bars3Icon className="w-5 h-5 text-slate-200"/>),
-    //     routes: [
-    //         {name: 'Tenders', url: route('tenders.index'), permission: 'canViewTenders'},
-    //         {name: 'Customers', url: route('customers.index'), permission: 'canViewCustomers'},
-    //         {name: 'Notifications', url: route('notifications.settings'), permission: 'canViewNotificationSettings'},
-    //     ]
-    // },
-    // {
-    //     name: 'Whatsapp',
-    //     Icon: () => (<Bars3Icon className="w-5 h-5 text-slate-200"/>),
-    //     routes: [
-    //         {name: 'Chats', url: route('chats'), permission: 'canViewGroups'},
-    //         {name: 'QR Codes', url: route('qr-codes.index'), permission: 'canViewQrCodes'},
-    //         {name: 'Keywords', url: route('keywords.index'), permission: 'canViewKeywords'},
-    //         {name: 'Templates', url: route('templates.index'), permission: 'canViewTemplates'},
-    //         {name: 'Broadcasting', url: route('groups.index'), permission: 'canViewGroups'},
-    //         {name: 'Message Scheduling', url: route('groups.index'), permission: 'canViewGroups'},
-    //     ]
-    // },
+    {
+        name: 'Integrations',
+        Icon: () => <PuzzlePieceIcon className="w-5 h-5 text-slate-200" />,
+        routes: [
+            {
+                name: 'WhatsApp',
+                url: route('dashboard'),
+                permission: 'canViewDashboard',
+                Icon: () => <ChatBubbleOvalLeftIcon className="w-5 h-5 text-slate-200" />,
+            },
+            {
+                name: 'OpenAI',
+                url: route('dashboard'),
+                permission: 'canViewDashboard',
+                Icon: () => <SparklesIcon className="w-5 h-5 text-slate-200" />,
+            },
+        ],
+    },
+    {
+        name: 'Data Sources',
+        Icon: () => <FolderIcon className="w-5 h-5 text-slate-200" />,
+        routes: [
+            {
+                name: 'Files',
+                url: route('dashboard'),
+                permission: 'canViewDashboard',
+                Icon: () => <DocumentTextIcon className="w-5 h-5 text-slate-200" />,
+            },
+            {
+                name: 'Documents',
+                url: route('dashboard'),
+                permission: 'canViewDashboard',
+                Icon: () => <DocumentTextIcon className="w-5 h-5 text-slate-200" />,
+            },
+            {
+                name: 'Website',
+                url: route('dashboard'),
+                permission: 'canViewDashboard',
+                Icon: () => <GlobeAltIcon className="w-5 h-5 text-slate-200" />,
+            },
+            {
+                name: 'Knowledge Base',
+                url: route('dashboard'),
+                permission: 'canViewDashboard',
+                Icon: () => <ChatBubbleLeftRightIcon className="w-5 h-5 text-slate-200" />,
+            },
+        ],
+    },
     {
         name: 'Administration',
-        Icon: () => (<UserGroupIcon className="w-5 h-5 text-slate-200"/>),
+        Icon: () => <ShieldCheckIcon className="w-5 h-5 text-slate-200" />,
         routes: [
-            {name: 'Users accounts', url: route('users.index'), permission: 'canViewUsers'},
-            {name: 'Roles', url: route('roles.index'), permission: 'canViewRoles'},
-        ]
+            {
+                name: 'User Accounts',
+                url: route('users.index'),
+                permission: 'canViewUsers',
+                Icon: () => <UsersIcon className="w-5 h-5 text-slate-200" />,
+            },
+            {
+                name: 'Roles',
+                url: route('roles.index'),
+                permission: 'canViewRoles',
+                Icon: () => <UserGroupIcon className="w-5 h-5 text-slate-200" />,
+            },
+        ],
     },
 ];
 
