@@ -4,19 +4,26 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OpenaiResource;
-use App\Models\Openai;
-use Carbon\Carbon;
+use App\Models\OpenaiConfig;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class OpenaiAPIController extends Controller
 {
+    /**
+     * Handle the incoming request.
+     *
+     * @param Request $request
+     * @return OpenaiResource
+     */
     public function __invoke(Request $request): OpenaiResource
     {
-        abort_unless(auth()->user()->hasRole('Super Admin') || auth()->user()->hasAnyPermission('view openai'), 403);
+        abort_unless(
+            auth()->user()->hasRole('Super Admin') || auth()->user()->hasAnyPermission('view openai'),
+            403,
+            'Unauthorized access.'
+        );
 
-
-        $openai = Openai::query()->first();
+        $openai = OpenaiConfig::first();
 
         return new OpenaiResource($openai);
     }
