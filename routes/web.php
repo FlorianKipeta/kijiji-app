@@ -13,6 +13,7 @@ use App\Http\Controllers\Auth\UsersController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\OpenaiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\WebhookVerificationController;
@@ -42,6 +43,7 @@ Route::get('/dashboard', DashboardController::class)->middleware(['auth', 'verif
 
 Route::middleware(['auth', MustChangePassword::class])->group(function () {
 
+    Route::resource('openai', OpenaiController::class)->only(['index', 'store', 'update']);
     Route::resource('projects', ProjectController::class)->except(['create', 'edit']);
     Route::resource('projects.files', FileController::class)->shallow()->only(['store', 'destroy']);
     Route::resource('projects.whatsapp', WhatsappController::class)->shallow()->only(['store', 'destroy']);

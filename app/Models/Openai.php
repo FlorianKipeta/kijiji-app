@@ -14,4 +14,6 @@ class Openai extends Model
         'key',
         'vector_store'
     ];
+
+    protected $hidden = ['key'];
 }
