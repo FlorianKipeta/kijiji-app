@@ -2,25 +2,18 @@
 
 namespace App\Models;
 
-use App\Traits\HasCreator;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
 class Project extends Model
 {
-    use HasCreator, HasSlug;
+    use HasSlug;
 
     protected $fillable = [
         'name',
         'slug',
         'purpose',
-        'instructions',
-        'model',
-        'vector_store',
-        'created_by',
     ];
 
     public function getSlugOptions(): SlugOptions
@@ -34,15 +27,5 @@ class Project extends Model
     public function getRouteKeyName(): string
     {
         return 'slug';
-    }
-
-    public function files(): HasMany
-    {
-        return $this->hasMany(File::class);
-    }
-
-    public function whatsappAccount(): HasOne
-    {
-        return $this->hasOne(WhatsappAccount::class);
     }
 }

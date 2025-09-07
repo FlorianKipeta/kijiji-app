@@ -16,10 +16,6 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('slug')->unique();
             $table->text('purpose');
-            $table->longText('instructions')->nullable();
-            $table->string('model');
-            $table->string('vector_store')->nullable();
-            $table->foreignId('created_by')->constrained('users');
             $table->timestamps();
         });
     }
