@@ -27,6 +27,11 @@ class PermissionTableSeeder extends Seeder
         ['name' => 'view openai', 'module' => 'Open AI'],
         ['name' => 'update openai', 'module' => 'Open AI'],
 
+        ['name' => 'view whatsapp accounts', 'module' => 'WhatsApp Accounts'],
+        ['name' => 'create whatsapp accounts', 'module' => 'WhatsApp Accounts'],
+        ['name' => 'edit whatsapp accounts', 'module' => 'WhatsApp Accounts'],
+        ['name' => 'delete whatsapp accounts', 'module' => 'WhatsApp Accounts'],
+
         ['name' => 'view projects', 'module' => 'Projects'],
         ['name' => 'create projects', 'module' => 'Projects'],
         ['name' => 'edit projects', 'module' => 'Projects'],

@@ -52,14 +52,14 @@ export const routes = [
         routes: [
             {
                 name: 'WhatsApp',
-                url: route('dashboard'),
-                permission: 'canViewDashboard',
+                url: route('whatsapp-accounts.index'),
+                permission: 'canViewWhatsappAccounts',
                 Icon: () => <ChatBubbleOvalLeftIcon className="w-5 h-5 text-slate-200" />,
             },
             {
                 name: 'OpenAI',
                 url: route('openai.index'),
-                permission: 'canViewDashboard',
+                permission: 'canViewOpenai',
                 Icon: () => <SparklesIcon className="w-5 h-5 text-slate-200" />,
             },
         ],

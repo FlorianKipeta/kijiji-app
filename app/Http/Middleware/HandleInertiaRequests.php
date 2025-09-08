@@ -10,7 +10,8 @@ class HandleInertiaRequests extends Middleware
 {
     private const MENU_PERMISSIONS = [
         'view dashboard',
-        'view projects',
+        'view whatsapp accounts',
+        'view openai',
         'view roles',
         'view users',
         'view user settings',

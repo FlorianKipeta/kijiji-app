@@ -113,12 +113,12 @@ export default function Index({ canUpdate }) {
 
             </div>
 
-            {openai ? (
+            {openai && Object.keys(openai).length > 0 ? (
                 <EditOpenai
                     show={showAddModal}
                     setShow={setShowAddModal}
                     refreshOpenais={refetch}
-                    openai={openai} // pass id for updating
+                    openai={openai}
                 />
             ) : (
                 <CreateOpenai
