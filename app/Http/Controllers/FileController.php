@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\File;
-use App\Models\OpenaiConfig;
+use App\Models\OpenAIConfig;
 use App\Services\FileConverterService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -63,7 +63,7 @@ class FileController extends Controller
 
     protected function uploadFileToVectorStore(string $path): string
     {
-        $openAIConfig = OpenaiConfig::query()->first();
+        $openAIConfig = OpenAIConfig::query()->first();
 
         if (! $openAIConfig) {
             return 'No OpenAI configuration found.';

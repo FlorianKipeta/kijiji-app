@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OpenaiResource;
-use App\Models\OpenaiConfig;
+use App\Models\OpenAIConfig;
 use Illuminate\Http\Request;
 
 class OpenaiAPIController extends Controller
@@ -20,7 +20,7 @@ class OpenaiAPIController extends Controller
             'Unauthorized access.'
         );
 
-        $openai = OpenaiConfig::first();
+        $openai = OpenAIConfig::first();
 
         return new OpenaiResource($openai);
     }

@@ -2,7 +2,7 @@
 
 namespace App\CrawlObservers;
 
-use App\Models\OpenaiConfig;
+use App\Models\OpenAIConfig;
 use App\Models\Website;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -102,7 +102,7 @@ class PlainTextCrawlObserver extends CrawlObserver
 
     protected function uploadFileToVectorStore(string $path): string
     {
-        $openAIConfig = OpenaiConfig::query()->first();
+        $openAIConfig = OpenAIConfig::query()->first();
 
         if (! $openAIConfig) {
             return 'No OpenAI configuration found.';
