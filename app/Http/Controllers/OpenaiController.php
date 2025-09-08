@@ -95,15 +95,12 @@ class OpenaiController extends Controller
             $project->name
         );
 
-        $vectorStoreID = $this->createVectorStore($project->name, $request->key);
-
         $openai->update([
             'model' => $request->model,
             'instructions' => $instructions,
             'temperature' => $request->temperature,
             'max_tokens' => $request->max_tokens,
             'key' => $request->key,
-            'vector_store' => $vectorStoreID,
         ]);
 
         return redirect()
