@@ -6,7 +6,6 @@ use App\Http\Resources\WhatsappAccountResource;
 use App\Models\WhatsappAccount;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\Rule;
 use Inertia\Response;
@@ -53,13 +52,14 @@ class WhatsappAccountController extends Controller
 
     protected function isValidAccessToken(string $accessToken, string $phoneNumberID): bool
     {
-        $response = Http::withHeaders(['Authorization' => 'Bearer '.$accessToken, 'Content-Type' => 'application/json'])->get('https://graph.facebook.com/v23.0/' . $phoneNumberID . '/whatsapp_business_profile?fields=about,address,description,email,profile_picture_url,websites,vertical',[
+        $response = Http::withHeaders(['Authorization' => 'Bearer '.$accessToken, 'Content-Type' => 'application/json'])->get('https://graph.facebook.com/v23.0/'.$phoneNumberID.'/whatsapp_business_profile?fields=about,address,description,email,profile_picture_url,websites,vertical', [
             'messaging_product' => 'whatsapp',
         ]);
 
         if ($response->successful()) {
             return true;
         }
+
         return false;
 
     }
@@ -78,7 +78,6 @@ class WhatsappAccountController extends Controller
     public function update(Request $request, WhatsappAccount $whatsappAccount): RedirectResponse
     {
         abort_if(auth()->user()->cannot('update whatsapp accounts'), 403);
-
 
         $data = $request->validate([
             'app_id' => [
@@ -110,7 +109,6 @@ class WhatsappAccountController extends Controller
                 },
             ],
         ]);
-
 
         $whatsappAccount->update($data);
 

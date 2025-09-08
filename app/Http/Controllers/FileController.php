@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\File;
 use App\Models\OpenaiConfig;
-use App\Models\Project;
 use App\Services\FileConverterService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -26,6 +25,7 @@ class FileController extends Controller
             'canDelete' => auth()->user()->can('delete files'),
         ]);
     }
+
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
@@ -65,8 +65,8 @@ class FileController extends Controller
     {
         $openAIConfig = OpenaiConfig::query()->first();
 
-        if (!$openAIConfig) {
-            return "No OpenAI configuration found.";
+        if (! $openAIConfig) {
+            return 'No OpenAI configuration found.';
         }
         $openAIClient = OpenAI::client($openAIConfig->key);
 
@@ -74,7 +74,6 @@ class FileController extends Controller
             'file' => fopen($path, 'r'),
             'purpose' => 'assistants',
         ]);
-
 
         $openAIClient->vectorStores()->files()->create($openAIConfig->vector_store, [
             'file_id' => $response->id,
@@ -89,7 +88,7 @@ class FileController extends Controller
             Storage::disk('public')->delete($file->path);
         }
 
-//        OpenAI::files()->delete($file->file_id);
+        //        OpenAI::files()->delete($file->file_id);
 
         $file->delete();
 

@@ -43,16 +43,16 @@ class ReceiveMessageJob extends ProcessWebhookJob
             $this->handleMessage($project, $customer, $message);
         }
 
-//        $whatsAppAccount = WhatsAppAccount::query()->with(['project'])->findOrFail(1);
-//        if ($whatsAppAccount) {
-//            $project = $whatsAppAccount->project;
-//
-//            $customer = $this->getOrCreateCustomer($contacts, $message);
-//
-//            if ($message) {
-//                $this->handleMessage($project, $customer, $message);
-//            }
-//        }
+        //        $whatsAppAccount = WhatsAppAccount::query()->with(['project'])->findOrFail(1);
+        //        if ($whatsAppAccount) {
+        //            $project = $whatsAppAccount->project;
+        //
+        //            $customer = $this->getOrCreateCustomer($contacts, $message);
+        //
+        //            if ($message) {
+        //                $this->handleMessage($project, $customer, $message);
+        //            }
+        //        }
 
     }
 
@@ -66,7 +66,7 @@ class ReceiveMessageJob extends ProcessWebhookJob
             [
                 'name' => $customerName,
                 'email' => time().'@celivent.com',
-//                'location' => (new GetCustomerLocation)->execute($customerWhatsappID),
+                //                'location' => (new GetCustomerLocation)->execute($customerWhatsappID),
                 'created_by' => 1,
             ]
         );

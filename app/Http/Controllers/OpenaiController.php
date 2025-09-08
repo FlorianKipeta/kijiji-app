@@ -16,7 +16,7 @@ class OpenaiController extends Controller
     public function index(): Response|ResponseFactory
     {
         return inertia('Openai/Index', [
-            'canUpdate' => auth()->user()->can('update openai')
+            'canUpdate' => auth()->user()->can('update openai'),
         ]);
     }
 
@@ -31,10 +31,10 @@ class OpenaiController extends Controller
                 'required',
                 'string',
                 function ($attribute, $value, $fail) {
-                    if (!$this->validateOpenAIKey($value)) {
+                    if (! $this->validateOpenAIKey($value)) {
                         $fail('The OpenAI API key is invalid or cannot connect.');
                     }
-                }
+                },
             ],
         ]);
 
@@ -78,10 +78,10 @@ class OpenaiController extends Controller
                 'required',
                 'string',
                 function ($attribute, $value, $fail) {
-                    if (!$this->validateOpenAIKey($value)) {
+                    if (! $this->validateOpenAIKey($value)) {
                         $fail('The OpenAI API key is invalid or cannot connect.');
                     }
-                }
+                },
             ],
         ]);
 
@@ -111,12 +111,11 @@ class OpenaiController extends Controller
             ->with('success', 'OpenAI configuration updated successfully.');
     }
 
-
     protected function validateOpenAIKey(string $key): bool
     {
         try {
             $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $key,
+                'Authorization' => 'Bearer '.$key,
                 'Content-Type' => 'application/json',
             ])->get('https://api.openai.com/v1/models');
 
@@ -129,12 +128,11 @@ class OpenaiController extends Controller
     protected function generateInstructions(
         string $model,
         string $instructions,
-        float  $temperature,
-        int    $max_tokens,
+        float $temperature,
+        int $max_tokens,
         string $key,
         string $projectName
-    ): string
-    {
+    ): string {
         return <<<'EOT'
 ROLE & PURPOSE
 You are the Kilimo Kiganjani Chatbot, the official AI-powered assistant of the Ministry of Agriculture – Tanzania.
@@ -208,6 +206,7 @@ EOT;
     protected function createVectorStore(string $projectName, string $key): string
     {
         $response = OpenAI::client($key)->vectorStores()->create(['name' => $projectName]);
+
         return $response->id;
     }
 }

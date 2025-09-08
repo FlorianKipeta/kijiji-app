@@ -31,7 +31,6 @@ class WebsiteController extends Controller
 
         ProcessWebsiteCrawl::dispatch($request->name);
 
-
         return redirect()->back()->with('success', 'Website content is downloading.');
 
     }
@@ -42,7 +41,7 @@ class WebsiteController extends Controller
             Storage::disk('public')->delete($website->path);
         }
 
-//        OpenAI::websites()->delete($website->website_id);
+        //        OpenAI::websites()->delete($website->website_id);
 
         $website->delete();
 

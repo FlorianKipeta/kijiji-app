@@ -4,13 +4,13 @@ namespace App\CrawlObservers;
 
 use App\Models\OpenaiConfig;
 use App\Models\Website;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use OpenAI;
-use Spatie\Crawler\CrawlObservers\CrawlObserver;
-use Psr\Http\Message\UriInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\UriInterface;
 use Spatie\Browsershot\Browsershot;
-use Illuminate\Support\Facades\Log;
+use Spatie\Crawler\CrawlObservers\CrawlObserver;
 use Throwable;
 
 class PlainTextCrawlObserver extends CrawlObserver
@@ -20,7 +20,6 @@ class PlainTextCrawlObserver extends CrawlObserver
 
     /** @var array A list of URLs that have already been processed to prevent duplicates. */
     protected array $renderedUrls = [];
-
 
     public function __construct(string $url)
     {
@@ -34,14 +33,13 @@ class PlainTextCrawlObserver extends CrawlObserver
         Storage::put($this->filename, "=== Cloned site from {$url} ===\n\n");
     }
 
-
     /**
      * Called when a new page has been crawled.
      *
-     * @param UriInterface $url The URI of the page that was crawled.
-     * @param ResponseInterface $response The response from the crawl.
-     * @param UriInterface|null $foundOnUrl The URI where this link was found.
-     * @param string|null $linkText The text of the link.
+     * @param  UriInterface  $url  The URI of the page that was crawled.
+     * @param  ResponseInterface  $response  The response from the crawl.
+     * @param  UriInterface|null  $foundOnUrl  The URI where this link was found.
+     * @param  string|null  $linkText  The text of the link.
      */
     public function crawled(
         UriInterface $url,
@@ -69,17 +67,16 @@ class PlainTextCrawlObserver extends CrawlObserver
             $plainText = preg_replace('/\s+/', ' ', $plainText);
             $plainText = trim($plainText);
 
-            if (!empty($plainText)) {
+            if (! empty($plainText)) {
                 Storage::append(
                     $this->filename,
-                    "URL: {$urlStr}\n\n{$plainText}\n\n" . str_repeat('-', 50) . "\n\n"
+                    "URL: {$urlStr}\n\n{$plainText}\n\n".str_repeat('-', 50)."\n\n"
                 );
             }
         } catch (Throwable $e) {
             // log error
         }
     }
-
 
     /**
      * Called when the crawl has finished.
@@ -93,10 +90,10 @@ class PlainTextCrawlObserver extends CrawlObserver
         $openAiFile = $this->uploadFileToVectorStore($absolutePath);
 
         Website::query()->create([
-            'name'       => basename($this->filename),
-            'path'       => $absolutePath,
+            'name' => basename($this->filename),
+            'path' => $absolutePath,
             'file_id' => $openAiFile,
-            'size'       => strlen($text),
+            'size' => strlen($text),
             'created_by' => auth()->id() ?? 1,
         ]);
 
@@ -107,8 +104,8 @@ class PlainTextCrawlObserver extends CrawlObserver
     {
         $openAIConfig = OpenaiConfig::query()->first();
 
-        if (!$openAIConfig) {
-            return "No OpenAI configuration found.";
+        if (! $openAIConfig) {
+            return 'No OpenAI configuration found.';
         }
         $openAIClient = OpenAI::client($openAIConfig->key);
 
@@ -117,7 +114,6 @@ class PlainTextCrawlObserver extends CrawlObserver
             'purpose' => 'assistants',
         ]);
 
-
         $openAIClient->vectorStores()->files()->create($openAIConfig->vector_store, [
             'file_id' => $response->id,
         ]);
@@ -125,18 +121,16 @@ class PlainTextCrawlObserver extends CrawlObserver
         return $response->id;
     }
 
-
-
     /**
      * Called when the crawl for a specific URL failed.
      *
-     * @param UriInterface $url The URL that failed to crawl.
-     * @param Throwable $reason The reason for the failure.
-     * @param UriInterface|null $foundOnUrl The URL where this link was found.
-     * @param string|null $linkText The text of the link.
+     * @param  UriInterface  $url  The URL that failed to crawl.
+     * @param  Throwable  $reason  The reason for the failure.
+     * @param  UriInterface|null  $foundOnUrl  The URL where this link was found.
+     * @param  string|null  $linkText  The text of the link.
      */
     public function crawlFailed(UriInterface $url, Throwable $reason, ?UriInterface $foundOnUrl = null, ?string $linkText = null): void
     {
-        Log::error("Crawler: Crawl failed for URL: {$url}. Reason: " . $reason->getMessage());
+        Log::error("Crawler: Crawl failed for URL: {$url}. Reason: ".$reason->getMessage());
     }
 }

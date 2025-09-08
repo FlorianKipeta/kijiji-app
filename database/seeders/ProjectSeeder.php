@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Project;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ProjectSeeder extends Seeder
@@ -16,7 +15,7 @@ class ProjectSeeder extends Seeder
         Project::query()->create([
             'name' => 'Kilimo Kiganjani',
             'slug' => 'kilimo-kiganjani',
-            'purpose' => 'The official AI-powered assistant of the Ministry of Agriculture – Tanzania.'
+            'purpose' => 'The official AI-powered assistant of the Ministry of Agriculture – Tanzania.',
         ]);
     }
 }

@@ -2,14 +2,14 @@
 
 namespace App\Jobs;
 
+use App\CrawlObservers\PlainTextCrawlObserver;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Spatie\Crawler\Crawler;
-use App\CrawlObservers\PlainTextCrawlObserver;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Crawler\Crawler;
 
 class ProcessWebsiteCrawl implements ShouldQueue
 {
@@ -21,7 +21,7 @@ class ProcessWebsiteCrawl implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param string $url The URL to crawl.
+     * @param  string  $url  The URL to crawl.
      */
     public function __construct(string $url)
     {
@@ -36,8 +36,7 @@ class ProcessWebsiteCrawl implements ShouldQueue
         $filename = 'crawled_content.txt';
 
         // Clear the file before starting the crawl.
-        Storage::put($filename, "Crawl of {$this->url}\n\n" . str_repeat('=', 50) . "\n\n");
-
+        Storage::put($filename, "Crawl of {$this->url}\n\n".str_repeat('=', 50)."\n\n");
 
         Crawler::create()
             ->setCrawlObserver(new PlainTextCrawlObserver($filename))

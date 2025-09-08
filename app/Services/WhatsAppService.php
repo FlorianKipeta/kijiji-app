@@ -16,20 +16,20 @@ class WhatsAppService
 
         $res = OpenAI::responses()->create([
             'model' => $project->model,
-            "tools" => [[
-                "type" => "file_search",
-                "vector_store_ids" => [$project->vector_store],
-                "max_num_results" => 20
+            'tools' => [[
+                'type' => 'file_search',
+                'vector_store_ids' => [$project->vector_store],
+                'max_num_results' => 20,
             ]],
             'input' => [
                 [
-                    "role" => "system",
-                    "content" => $project->instructions
+                    'role' => 'system',
+                    'content' => $project->instructions,
                 ],
                 [
-                    "role" => "user",
-                    "content" => $message->text
-                ]
+                    'role' => 'user',
+                    'content' => $message->text,
+                ],
             ],
             'max_output_tokens' => 500,
             'temperature' => 0.7,
@@ -37,9 +37,8 @@ class WhatsAppService
 
         $token = 'Bearer '.config('services.whatsapp.token');
         $endpoint = config('services.whatsapp.api_endpoint');
-        Log::debug("Response: ", [$res]);
-        Log::debug("Env values: ", ['endpoint' => $endpoint, 'token' => $token]);
-
+        Log::debug('Response: ', [$res]);
+        Log::debug('Env values: ', ['endpoint' => $endpoint, 'token' => $token]);
 
         Http::withHeaders([
             'Authorization' => $token,
@@ -49,8 +48,8 @@ class WhatsAppService
                 [
                     'type' => 'text',
                     'text' => ['body' => $res->outputText, 'preview_url' => false],
-                'messaging_product' => 'whatsapp', 'recipient_type' => 'individual',
-                        'to' => str_replace('+', '', $customer->phone),
-                    ]);
+                    'messaging_product' => 'whatsapp', 'recipient_type' => 'individual',
+                    'to' => str_replace('+', '', $customer->phone),
+                ]);
     }
 }
