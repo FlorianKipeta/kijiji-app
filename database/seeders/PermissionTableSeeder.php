@@ -42,9 +42,13 @@ class PermissionTableSeeder extends Seeder
         ['name' => 'edit customers', 'module' => 'Customers'],
         ['name' => 'delete customers', 'module' => 'Customers'],
 
-        ['name' => 'view file', 'module' => 'Files'],
-        ['name' => 'create file', 'module' => 'Files'],
-        ['name' => 'delete file', 'module' => 'Files'],
+        ['name' => 'view files', 'module' => 'Files'],
+        ['name' => 'create files', 'module' => 'Files'],
+        ['name' => 'delete files', 'module' => 'Files'],
+
+        ['name' => 'view websites', 'module' => 'Website Links'],
+        ['name' => 'create websites', 'module' => 'Website Links'],
+        ['name' => 'delete websites', 'module' => 'Website Links'],
 
     ];
 
