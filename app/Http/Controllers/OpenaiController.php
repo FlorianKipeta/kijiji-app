@@ -69,7 +69,6 @@ class OpenaiController extends Controller
 
     public function update(Request $request, OpenAIConfig $openai): RedirectResponse
     {
-        dd($openai);
         $request->validate([
             'model' => 'required|string',
             'instructions' => 'required|string|max:255',
@@ -96,13 +95,14 @@ class OpenaiController extends Controller
             $project->name
         );
 
-        $openai->update([
+       $ab = $openai->update([
             'model' => $request->model,
             'instructions' => $instructions,
             'temperature' => $request->temperature,
             'max_tokens' => $request->max_tokens,
             'key' => $request->key,
         ]);
+       dd($ab);
 
         return redirect()
             ->route('openai.index')
