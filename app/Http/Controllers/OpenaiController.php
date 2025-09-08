@@ -67,8 +67,9 @@ class OpenaiController extends Controller
             ->with('success', 'OpenAI configuration saved successfully.');
     }
 
-    public function update(Request $request, OpenAIConfig $openAIConfig): RedirectResponse
+    public function update(Request $request, OpenAIConfig $openai): RedirectResponse
     {
+        dd($openai);
         $request->validate([
             'model' => 'required|string',
             'instructions' => 'required|string|max:255',
