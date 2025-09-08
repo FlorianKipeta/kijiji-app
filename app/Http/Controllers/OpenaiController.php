@@ -24,8 +24,8 @@ class OpenaiController extends Controller
     {
         $request->validate([
             'model' => 'required|string',
-            'instructions' => 'required|string|max:255',
-            'temperature' => 'required|integer|min:0|max:1',
+            'instructions' => 'required|string',
+            'temperature' => 'required|numeric|min:0|max:2',
             'max_tokens' => 'required|integer|min:1|max:500',
             'key' => [
                 'required',
@@ -71,8 +71,8 @@ class OpenaiController extends Controller
     {
         $request->validate([
             'model' => 'required|string',
-            'instructions' => 'required|string|max:255',
-            'temperature' => 'required|integer|min:0|max:1',
+            'instructions' => 'required|string',
+            'temperature' => 'required|numeric|min:0|max:1',
             'max_tokens' => 'required|integer|min:1|max:500',
             'key' => [
                 'required',
