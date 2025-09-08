@@ -5,8 +5,6 @@ namespace App\Jobs;
 use App\Actions\GetCustomerLocation;
 use App\Models\Customer;
 use App\Models\Message;
-use App\Models\Project;
-use App\Models\WhatsappAccount;
 use App\Services\WhatsAppService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;

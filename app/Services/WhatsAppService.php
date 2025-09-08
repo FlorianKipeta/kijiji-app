@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\Customer;
 use App\Models\Message;
-use App\Models\Project;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
