@@ -35,25 +35,11 @@ class ReceiveMessageJob extends ProcessWebhookJob
         $message = $validatedData['messages'][0] ?? null;
         $phoneNumberID = $validatedData['metadata']['phone_number_id'] ?? null;
 
-        $project = Project::query()->findOrFail(1);
-
         $customer = $this->getOrCreateCustomer($contacts, $message);
 
         if ($message) {
-            $this->handleMessage($project, $customer, $message);
+            $this->handleMessage($customer, $message);
         }
-
-        //        $whatsAppAccount = WhatsAppAccount::query()->with(['project'])->findOrFail(1);
-        //        if ($whatsAppAccount) {
-        //            $project = $whatsAppAccount->project;
-        //
-        //            $customer = $this->getOrCreateCustomer($contacts, $message);
-        //
-        //            if ($message) {
-        //                $this->handleMessage($project, $customer, $message);
-        //            }
-        //        }
-
     }
 
     private function getOrCreateCustomer(?array $contacts, ?array $message): Customer
@@ -65,14 +51,12 @@ class ReceiveMessageJob extends ProcessWebhookJob
             ['phone' => $customerWhatsappID],
             [
                 'name' => $customerName,
-                'email' => time().'@celivent.com',
-                //                'location' => (new GetCustomerLocation)->execute($customerWhatsappID),
-                'created_by' => 1,
+                'country' => (new GetCustomerLocation)->execute($customerWhatsappID),
             ]
         );
     }
 
-    private function handleMessage(Project $project, Customer $customer, array $message): void
+    private function handleMessage(Customer $customer, array $message): void
     {
         $messageType = $message['type'] ?? null;
 
@@ -80,20 +64,20 @@ class ReceiveMessageJob extends ProcessWebhookJob
             throw new \InvalidArgumentException('Message type is missing');
         }
 
-        $this->processMessageType($messageType, $message, $customer, $project);
+        $this->processMessageType($messageType, $message, $customer);
     }
 
-    private function processMessageType(string $messageType, array $message, Customer $customer, Project $project): void
+    private function processMessageType(string $messageType, array $message, Customer $customer): void
     {
         match ($messageType) {
-            Message::TEXT_MESSAGE => $this->createTextMessage($project, $customer, $message['text']['body'], $message['id']),
-            Message::BUTTON_MESSAGE => $this->createTextMessage($project, $customer, $message['button']['text'], $message['id']),
-            Message::IMAGE_MESSAGE, Message::AUDIO_MESSAGE, Message::VIDEO_MESSAGE, Message::DOCUMENT_MESSAGE, Message::STICKER_MESSAGE => $this->processMediaMessage($project, $message, $customer),
+            Message::TEXT_MESSAGE => $this->createTextMessage($customer, $message['text']['body'], $message['id']),
+            Message::BUTTON_MESSAGE => $this->createTextMessage($customer, $message['button']['text'], $message['id']),
+            Message::IMAGE_MESSAGE, Message::AUDIO_MESSAGE, Message::VIDEO_MESSAGE, Message::DOCUMENT_MESSAGE, Message::STICKER_MESSAGE => $this->processMediaMessage($message, $customer),
             default => throw new \InvalidArgumentException('Unknown message type: '.$messageType),
         };
     }
 
-    private function createTextMessage(Project $project, Customer $customer, string $text, string $messageID): void
+    private function createTextMessage(Customer $customer, string $text, string $messageID): void
     {
         $message = Message::query()->create([
             'type' => 'text',
@@ -104,16 +88,16 @@ class ReceiveMessageJob extends ProcessWebhookJob
             'status' => 'sent',
         ]);
 
-        $this->continueConversation($project, $customer, $message);
+        $this->continueConversation($customer, $message);
     }
 
-    private function processMediaMessage(Project $project, Customer $customer, array $message): void
+    private function processMediaMessage(Customer $customer, array $message): void
     {
         //
     }
 
-    private function continueConversation(Project $project, Customer $customer, Message $message): void
+    private function continueConversation(Customer $customer, Message $message): void
     {
-        WhatsAppService::sendWhatsAppMessage($project, $customer, $message);
+        WhatsAppService::sendWhatsAppMessage($customer, $message);
     }
 }

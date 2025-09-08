@@ -7,11 +7,10 @@ use App\Models\Message;
 use App\Models\Project;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use OpenAI\Laravel\Facades\OpenAI;
 
 class WhatsAppService
 {
-    public static function sendWhatsAppMessage(Project $project, Customer $customer, Message $message): void
+    public static function sendWhatsAppMessage(Customer $customer, Message $message): void
     {
 
         $res = OpenAI::responses()->create([
