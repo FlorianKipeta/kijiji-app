@@ -36,7 +36,7 @@ class ReceiveMessageJob extends ProcessWebhookJob
         $customer = $this->getOrCreateCustomer($contacts, $message);
 
         if ($message) {
-            $this->handleMessage($customer, $message);
+            $this->handleMessage($customer, $message, $phoneNumberID);
         }
     }
 
@@ -54,7 +54,7 @@ class ReceiveMessageJob extends ProcessWebhookJob
         );
     }
 
-    private function handleMessage(Customer $customer, array $message): void
+    private function handleMessage(Customer $customer, array $message, $phoneNumberID): void
     {
         $messageType = $message['type'] ?? null;
 
@@ -62,20 +62,20 @@ class ReceiveMessageJob extends ProcessWebhookJob
             throw new \InvalidArgumentException('Message type is missing');
         }
 
-        $this->processMessageType($messageType, $message, $customer);
+        $this->processMessageType($messageType, $message, $customer,$phoneNumberID);
     }
 
-    private function processMessageType(string $messageType, array $message, Customer $customer): void
+    private function processMessageType(string $messageType, array $message, Customer $customer,$phoneNumberID): void
     {
         match ($messageType) {
-            Message::TEXT_MESSAGE => $this->createTextMessage($customer, $message['text']['body'], $message['id']),
-            Message::BUTTON_MESSAGE => $this->createTextMessage($customer, $message['button']['text'], $message['id']),
-            Message::IMAGE_MESSAGE, Message::AUDIO_MESSAGE, Message::VIDEO_MESSAGE, Message::DOCUMENT_MESSAGE, Message::STICKER_MESSAGE => $this->processMediaMessage($message, $customer),
+            Message::TEXT_MESSAGE => $this->createTextMessage($customer, $message['text']['body'], $message['id'],$phoneNumberID),
+            Message::BUTTON_MESSAGE => $this->createTextMessage($customer, $message['button']['text'], $message['id'],$phoneNumberID),
+            Message::IMAGE_MESSAGE, Message::AUDIO_MESSAGE, Message::VIDEO_MESSAGE, Message::DOCUMENT_MESSAGE => $this->processMediaMessage($customer, $message,$phoneNumberID),
             default => throw new \InvalidArgumentException('Unknown message type: '.$messageType),
         };
     }
 
-    private function createTextMessage(Customer $customer, string $text, string $messageID): void
+    private function createTextMessage(Customer $customer, string $text, string $messageID,$phoneNumberID): void
     {
         $message = Message::query()->create([
             'type' => 'text',
@@ -86,16 +86,16 @@ class ReceiveMessageJob extends ProcessWebhookJob
             'status' => 'sent',
         ]);
 
-        $this->continueConversation($customer, $message);
+        $this->continueConversation($customer, $message, $phoneNumberID);
     }
 
-    private function processMediaMessage(Customer $customer, array $message): void
+    private function processMediaMessage(Customer $customer, array $message,$phoneNumberID): void
     {
         //
     }
 
-    private function continueConversation(Customer $customer, Message $message): void
+    private function continueConversation(Customer $customer, Message $message, $phoneNumberID): void
     {
-        WhatsAppService::sendWhatsAppMessage($customer, $message);
+        WhatsAppService::sendWhatsAppMessage($customer, $message,$phoneNumberID);
     }
 }

@@ -43,7 +43,6 @@ return [
 
     'whatsapp' => [
         'api_endpoint' => env('WHATSAPP_API_ENDPOINT'),
-        'token' => env('WHATSAPP_TOKEN'),
     ],
 
 ];
