@@ -9,10 +9,21 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use OpenAI\Laravel\Facades\OpenAI;
+use Inertia\Response;
+use Inertia\ResponseFactory;
 
 class FileController extends Controller
 {
+    public function index(): Response|ResponseFactory
+    {
+        abort_if(auth()->user()->cannot('view files'), 403);
+
+        return inertia('File/Index', [
+            'canCreate' => auth()->user()->can('create files'),
+            'canEdit' => auth()->user()->can('edit files'),
+            'canDelete' => auth()->user()->can('delete files'),
+        ]);
+    }
     public function store(Request $request, Project $project): RedirectResponse
     {
         $request->validate([
@@ -34,22 +45,22 @@ class FileController extends Controller
 
         $absolutePath = storage_path("app/private/{$path}");
 
-        $openAiFile = OpenAI::files()->upload([
-            'file' => fopen($absolutePath, 'r'),
-            'purpose' => 'assistants',
-        ]);
+//        $openAiFile = OpenAI::files()->upload([
+//            'file' => fopen($absolutePath, 'r'),
+//            'purpose' => 'assistants',
+//        ]);
 
         if (! $project->vector_store) {
-            $vectorStore = OpenAI::vectorStores()->create([
-                'name' => "Project {$project->id} Store",
-            ]);
+//            $vectorStore = OpenAI::vectorStores()->create([
+//                'name' => "Project {$project->id} Store",
+//            ]);
 
             $project->update(['vector_store' => $vectorStore->id]);
         }
 
-        OpenAI::vectorStores()->files()->create($project->vector_store, [
-            'file_id' => $openAiFile->id,
-        ]);
+//        OpenAI::vectorStores()->files()->create($project->vector_store, [
+//            'file_id' => $openAiFile->id,
+//        ]);
 
         File::query()->create([
             'name' => $fileName, // converted .txt name
@@ -70,7 +81,7 @@ class FileController extends Controller
             Storage::disk('public')->delete($file->path);
         }
 
-        OpenAI::files()->delete($file->file_id);
+//        OpenAI::files()->delete($file->file_id);
 
         $file->delete();
 

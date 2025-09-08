@@ -49,7 +49,7 @@ Route::middleware(['auth', MustChangePassword::class])->group(function () {
     Route::resource('openai', OpenaiController::class)->only(['index', 'store', 'update']);
     Route::resource('whatsapp-accounts', WhatsappAccountController::class)->except(['create', 'edit']);
     Route::resource('projects', ProjectController::class)->except(['create', 'edit']);
-    Route::resource('projects.files', FileController::class)->shallow()->only(['store', 'destroy']);
+    Route::resource('files', FileController::class)->except(['create', 'edit']);
     Route::resource('projects.whatsapp', WhatsappController::class)->shallow()->only(['store', 'destroy']);
     Route::resource('customers', CustomerController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
 
@@ -83,6 +83,7 @@ Route::middleware(['auth', MustChangePassword::class])->group(function () {
     Route::prefix('api')->name('api.')->group(function () {
         Route::get('openai', OpenaiAPIController::class)->name('openai');
         Route::get('projects', ProjectAPIController::class)->name('projects');
+        Route::get('files', FileAPIController::class)->name('files');
         Route::get('whatsapp-accounts', WhatsappAccountAPIController::class)->name('whatsapp-accounts');
         Route::get('files/{project}', FileAPIController::class)->name('files');
         Route::get('users', UserAPIController::class)->name('users');

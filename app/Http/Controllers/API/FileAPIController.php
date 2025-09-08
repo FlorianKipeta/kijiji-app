@@ -4,14 +4,14 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FileResource;
-use App\Models\Project;
+use App\Models\File;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class FileAPIController extends Controller
 {
-    public function __invoke(Project $project, Request $request): AnonymousResourceCollection
+    public function __invoke(Request $request): AnonymousResourceCollection
     {
         abort_unless(auth()->user()->hasRole('Super Admin') || auth()->user()->hasAnyPermission('view files'), 403);
 
@@ -22,7 +22,7 @@ class FileAPIController extends Controller
             'endDate' => ['date', 'nullable', 'date_format:Y-m-d'],
         ]);
 
-        $files = $project->files()
+        $files = File::query()
             ->latest('id')
             ->when(
                 $request->has('startDate') && $request->has('endDate'),
