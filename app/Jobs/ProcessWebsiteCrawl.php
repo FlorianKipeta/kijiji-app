@@ -45,6 +45,7 @@ class ProcessWebsiteCrawl implements ShouldQueue
             ->setTotalCrawlLimit(50)
             ->ignoreRobots()
             ->setParseableMimeTypes(['text/html'])
+            ->setConcurrency(2)
             ->startCrawling($this->url);
     }
 }
