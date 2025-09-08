@@ -77,7 +77,7 @@ export const routes = [
             {
                 name: 'Website',
                 url: route('websites.index'),
-                permission: 'canViewWebsite',
+                permission: 'canViewWebsites',
                 Icon: () => <GlobeAltIcon className="w-5 h-5 text-slate-200" />,
             },
             // {
