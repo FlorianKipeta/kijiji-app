@@ -76,8 +76,8 @@ export const routes = [
             },
             {
                 name: 'Website',
-                url: route('dashboard'),
-                permission: 'canViewDashboard',
+                url: route('websites.index'),
+                permission: 'canViewWebsite',
                 Icon: () => <GlobeAltIcon className="w-5 h-5 text-slate-200" />,
             },
             {

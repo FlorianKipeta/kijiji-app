@@ -13,6 +13,7 @@ class HandleInertiaRequests extends Middleware
         'view whatsapp accounts',
         'view openai',
         'view files',
+        'view website',
         'view roles',
         'view users',
         'view user settings',

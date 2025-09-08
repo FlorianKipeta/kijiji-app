@@ -6,6 +6,7 @@ use App\Http\Controllers\API\OpenaiAPIController;
 use App\Http\Controllers\API\ProjectAPIController;
 use App\Http\Controllers\API\RoleAPIController;
 use App\Http\Controllers\API\UserAPIController;
+use App\Http\Controllers\API\WebsiteAPIController;
 use App\Http\Controllers\API\WhatsappAccountAPIController;
 use App\Http\Controllers\Auth\ResetUserPasswordController;
 use App\Http\Controllers\Auth\RolesController;
@@ -19,6 +20,7 @@ use App\Http\Controllers\OpenaiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\WebhookVerificationController;
+use App\Http\Controllers\WebsiteController;
 use App\Http\Controllers\WhatsappAccountController;
 use App\Http\Controllers\WhatsappController;
 use App\Http\Middleware\MustChangePassword;
@@ -50,6 +52,7 @@ Route::middleware(['auth', MustChangePassword::class])->group(function () {
     Route::resource('whatsapp-accounts', WhatsappAccountController::class)->except(['create', 'edit']);
     Route::resource('projects', ProjectController::class)->except(['create', 'edit']);
     Route::resource('files', FileController::class)->except(['create', 'edit']);
+    Route::resource('websites', WebsiteController::class)->except(['create', 'edit']);
     Route::resource('projects.whatsapp', WhatsappController::class)->shallow()->only(['store', 'destroy']);
     Route::resource('customers', CustomerController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
 
@@ -84,6 +87,7 @@ Route::middleware(['auth', MustChangePassword::class])->group(function () {
         Route::get('openai', OpenaiAPIController::class)->name('openai');
         Route::get('projects', ProjectAPIController::class)->name('projects');
         Route::get('files', FileAPIController::class)->name('files');
+        Route::get('websites', WebsiteAPIController::class)->name('websites');
         Route::get('whatsapp-accounts', WhatsappAccountAPIController::class)->name('whatsapp-accounts');
         Route::get('users', UserAPIController::class)->name('users');
         Route::get('users-with-role/{role}', [UserAPIController::class, 'usersWithRole'])->name('users-with-role');

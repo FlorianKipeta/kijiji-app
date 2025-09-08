@@ -1,5 +1,5 @@
 import Layout from '@/Layouts/AuthenticatedLayout';
-import {WhatsappAccountTable} from '@pages/WhatsappAccount/WhatsappAccountTable';
+import {WebsiteTable} from '@pages/Website/WebsiteTable';
 import {PrimaryBtn, SecondaryBtn} from '@components/buttons'
 import Modal from '@components/modals/Modal';
 import axios from 'axios';
@@ -11,26 +11,27 @@ import dayjs from "dayjs";
 import {SearchableSelect} from "@components/inputs/SearchableSelect.jsx";
 import {useServerSideTable} from "@/hooks/serverside-table.js";
 import {PlusCircleIcon} from "@heroicons/react/24/solid/index.js";
-import CreateWhatsappAccount from "@pages/WhatsappAccount/CreateWhatsappAccount.jsx";
+import CreateWebsite from "@pages/Website/CreateWebsite.jsx";
 
-export default function Index({canCreate, canEdit, canDelete}) {
+export default function Index({canCreate, canEdit, canDelete, canAddWebsiteToGroups}) {
     const [showAddModal, setShowAddModal] = useState(false);
+    const [showStaffAssignmentModal, setShowStaffAssignmentModal] = useState(false);
     const [pageMeta, setPageMeta] = useState({size: 0, page: 0, q: null}); // for serverside table
 
     const [filters, setFilters] = useState({
         refetch: false
     });
 
-    const {data: whatsappAccounts, isLoading, refetch} = useQuery(
-        ['whatsappAccounts', filters],
-        () => getWhatsappAccounts({pageSize: pageMeta?.size, page: pageMeta?.page, query: pageMeta.q, ...filters}),
+    const {data: websites, isLoading, refetch} = useQuery(
+        ['websites', filters],
+        () => getWebsites({pageSize: pageMeta?.size, page: pageMeta?.page, query: pageMeta.q, ...filters}),
         {
             enabled: false,
             keepPreviousData: true
         }
     );
 
-    const {fetchData, pageCount} = useServerSideTable({meta: whatsappAccounts?.meta, refetch, pageMeta, setPageMeta});
+    const {fetchData, pageCount} = useServerSideTable({meta: websites?.meta, refetch, pageMeta, setPageMeta});
 
     function applyFilter(filters) {
         setFilters({refetch: true, ...filters});
@@ -42,7 +43,7 @@ export default function Index({canCreate, canEdit, canDelete}) {
         }
     }, [filters])
     return (
-        <Layout title='Whatsapp Accounts'>
+        <Layout title='Website List'>
             <div className='flex justify-end mb-4'>
                 {
                     canCreate &&
@@ -51,19 +52,19 @@ export default function Index({canCreate, canEdit, canDelete}) {
                 }
             </div>
 
-            {/*<Filters onApplyFilter={applyFilter} defaults={filters}/>*/}
+            <Filters onApplyFilter={applyFilter} defaults={filters}/>
 
-            <WhatsappAccountTable
+            <WebsiteTable
                 refetch={refetch}
                 fetchData={fetchData}
-                whatsappAccounts={whatsappAccounts?.data || []}
+                websites={websites?.data || []}
                 pageCount={pageCount}
                 loading={isLoading}
                 canEdit={canEdit}
                 canDelete={canDelete}
             />
 
-            <CreateWhatsappAccount show={showAddModal} setShow={setShowAddModal} refreshWhatsappAccounts={refetch} />
+            <CreateWebsite show={showAddModal} setShow={setShowAddModal} refreshWebsites={refetch} />
         </Layout>
     )
 }
@@ -116,8 +117,8 @@ function Filters({onApplyFilter, defaults}) {
 
 }
 
-const getWhatsappAccounts = async ({pageSize, page, query, ...filters}) => {
-    let response = await axios.get(route('api.whatsapp-accounts', {
+const getWebsites = async ({pageSize, page, query, ...filters}) => {
+    let response = await axios.get(route('api.websites', {
         paginate: true,
         page: page,
         page_size: pageSize,
