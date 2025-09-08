@@ -19,9 +19,7 @@ class CustomerResource extends JsonResource
             'name' => $this->name,
             'phone' => $this->phone,
             'email' => $this->email,
-            'address' => $this->address,
-            'created_by' => new UserResource($this->whenLoaded('creator')),
-
+            'country' => $this->country,
         ];
     }
 }

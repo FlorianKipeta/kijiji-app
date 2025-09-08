@@ -39,16 +39,16 @@ export const CustomerTable = ({
             }
         },
         {
-            Header: 'Email',
-            accessor: 'email',
-        },
-        {
             Header: 'Phone',
             accessor: 'phone',
         },
         {
-            Header: 'Address',
-            accessor: 'address',
+            Header: 'Email',
+            accessor: 'email',
+        },
+        {
+            Header: 'Country',
+            accessor: 'country',
         },
         {
             Header: 'Action',

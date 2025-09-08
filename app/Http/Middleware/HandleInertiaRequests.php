@@ -14,6 +14,7 @@ class HandleInertiaRequests extends Middleware
         'view openai',
         'view files',
         'view website',
+        'view customers',
         'view roles',
         'view users',
         'view user settings',

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\GetCustomerLocation;
 use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
 use Illuminate\Http\RedirectResponse;
@@ -21,7 +22,6 @@ class CustomerController extends Controller
             'canCreate' => auth()->user()->can('create customers'),
             'canEdit' => auth()->user()->can('edit customers'),
             'canDelete' => auth()->user()->can('delete customers'),
-            'canAssign' => auth()->user()->can('add customer to groups'),
         ]);
     }
 
@@ -31,12 +31,11 @@ class CustomerController extends Controller
 
         $data = $request->validate([
             'name' => ['required', 'string', 'max:100'],
-            'email' => ['required', 'email', 'unique:customers'],
+            'email' => ['nullable', 'email', 'unique:customers'],
             'phone' => ['required', 'string', 'max:20', 'unique:customers'],
-            'address' => ['required', 'string', 'max:255'],
         ]);
 
-        $data['created_by'] = Auth::id();
+        $data['country'] = (new GetCustomerLocation)->execute($request->phone);
 
         $customer = Customer::query()->create($data);
 
@@ -60,9 +59,10 @@ class CustomerController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', 'max:100'],
             'phone' => ['required', 'string', 'max:20', Rule::unique('customers', 'phone')->ignore($customer->id)],
-            'email' => ['required', 'email', Rule::unique('customers', 'email')->ignore($customer->id)],
-            'address' => ['required', 'string', 'max:255'],
+            'email' => ['nullable', 'email', Rule::unique('customers', 'email')->ignore($customer->id)],
         ]);
+
+        $data['country'] = (new GetCustomerLocation)->execute($request->phone);
 
         $customer->update($data);
 

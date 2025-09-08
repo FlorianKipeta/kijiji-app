@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\CustomerAPIController;
 use App\Http\Controllers\API\FileAPIController;
 use App\Http\Controllers\API\NotificationAPIController;
 use App\Http\Controllers\API\OpenaiAPIController;
@@ -90,6 +91,7 @@ Route::middleware(['auth', MustChangePassword::class])->group(function () {
         Route::get('websites', WebsiteAPIController::class)->name('websites');
         Route::get('whatsapp-accounts', WhatsappAccountAPIController::class)->name('whatsapp-accounts');
         Route::get('users', UserAPIController::class)->name('users');
+        Route::get('customers', CustomerAPIController::class)->name('customers');
         Route::get('users-with-role/{role}', [UserAPIController::class, 'usersWithRole'])->name('users-with-role');
         Route::get('roles', RoleAPIController::class)->name('roles');
     });

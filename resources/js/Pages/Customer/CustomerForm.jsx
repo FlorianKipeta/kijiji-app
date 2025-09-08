@@ -3,8 +3,6 @@ import {PrimaryBtn, SecondaryBtn} from '@components/buttons';
 import {Input} from '@components/inputs';
 import React from 'react'
 import {PhoneInput} from '@components/inputs/PhoneInput';
-import {SearchableSelect} from "@components/inputs/SearchableSelect.jsx";
-import TextArea from "@components/inputs/TextArea.jsx";
 
 export default function CustomerForm({
                                          customer = null,
@@ -17,8 +15,6 @@ export default function CustomerForm({
         name: customer?.name || '',
         phone: customer?.phone || '',
         email: customer?.email || '',
-        address: customer?.address || '',
-        image_path: null,
     });
 
 
@@ -84,19 +80,10 @@ export default function CustomerForm({
 
                 <div className="flex flex-col">
                     <label htmlFor="email">Email</label>
-                    <Input error={Boolean(errors.email)} onChange={e => setData('email', e.target.value)} required
+                    <Input error={Boolean(errors.email)} onChange={e => setData('email', e.target.value)}
                            id="email" value={data.email}/>
 
                     <span className="text-red-500 text-sm">{errors.email}</span>
-                </div>
-
-
-                <div className="flex flex-col col-span-2">
-                    <label htmlFor="address">Address</label>
-                    <TextArea id="address" className="" name="address" value={data.address} rows={3}
-                              onChange={(val) => setData('address', val.target.value)}/>
-
-                    <span className="text-red-500 text-sm">{errors.address}</span>
                 </div>
 
                 <div className="mt-5 col-span-full flex pt-2 space-x-3 justify-end border-t">

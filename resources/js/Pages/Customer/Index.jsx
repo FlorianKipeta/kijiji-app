@@ -13,9 +13,8 @@ import {useServerSideTable} from "@/hooks/serverside-table.js";
 import {PlusCircleIcon} from "@heroicons/react/24/solid/index.js";
 import CreateCustomer from "@pages/Customer/CreateCustomer.jsx";
 
-export default function Index({canCreate, canEdit, canDelete, canAddCustomerToGroups}) {
+export default function Index({canCreate, canEdit, canDelete}) {
     const [showAddModal, setShowAddModal] = useState(false);
-    const [showStaffAssignmentModal, setShowStaffAssignmentModal] = useState(false);
     const [pageMeta, setPageMeta] = useState({size: 0, page: 0, q: null}); // for serverside table
 
     const [filters, setFilters] = useState({

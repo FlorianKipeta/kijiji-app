@@ -12,6 +12,7 @@ import {SearchableSelect} from "@components/inputs/SearchableSelect.jsx";
 import {useServerSideTable} from "@/hooks/serverside-table.js";
 import {PlusCircleIcon} from "@heroicons/react/24/solid/index.js";
 import CreateWhatsappAccount from "@pages/WhatsappAccount/CreateWhatsappAccount.jsx";
+import WebhookSetup from "@pages/WhatsappAccount/WebhookSetup.jsx";
 
 export default function Index({canCreate, canEdit, canDelete}) {
     const [showAddModal, setShowAddModal] = useState(false);
@@ -43,6 +44,7 @@ export default function Index({canCreate, canEdit, canDelete}) {
     }, [filters])
     return (
         <Layout title='Whatsapp Accounts'>
+            <WebhookSetup />
             <div className='flex justify-end mb-4'>
                 {
                     canCreate &&

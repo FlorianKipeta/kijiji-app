@@ -42,7 +42,7 @@ class FileController extends Controller
         $safeName = Str::slug($originalName);
         $fileName = $safeName.'_'.time().'.txt';
 
-        $path = "project_files/{$fileName}";
+        $path = "private/project_files/{$fileName}";
         Storage::disk('local')->put($path, $text);
 
         $absolutePath = storage_path("app/private/{$path}");

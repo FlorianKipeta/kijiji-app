@@ -34,8 +34,8 @@ export const routes = [
         routes: [
             {
                 name: 'Customers',
-                url: route('dashboard'),
-                permission: 'canViewDashboard',
+                url: route('customers.index'),
+                permission: 'canViewCustomers',
                 Icon: () => <UserGroupIcon className="w-5 h-5 text-slate-200" />,
             },
             {
@@ -80,12 +80,12 @@ export const routes = [
                 permission: 'canViewWebsite',
                 Icon: () => <GlobeAltIcon className="w-5 h-5 text-slate-200" />,
             },
-            {
-                name: 'Knowledge Base',
-                url: route('dashboard'),
-                permission: 'canViewDashboard',
-                Icon: () => <ChatBubbleLeftRightIcon className="w-5 h-5 text-slate-200" />,
-            },
+            // {
+            //     name: 'Knowledge Base',
+            //     url: route('dashboard'),
+            //     permission: 'canViewDashboard',
+            //     Icon: () => <ChatBubbleLeftRightIcon className="w-5 h-5 text-slate-200" />,
+            // },
         ],
     },
     {
