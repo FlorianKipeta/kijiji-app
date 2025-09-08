@@ -11,7 +11,7 @@ export default function OpenaiForm({
                                        onSuccess = null,
                                        closeCallback = () => null,
                                    }) {
-    const { data, setData, reset, post, processing, errors } = useForm({
+    const { data, setData, reset, post,put, processing, errors } = useForm({
         model: openai?.model || '',
         instructions: openai?.instructions || '',
         temperature: openai?.temperature || 0,
@@ -38,9 +38,8 @@ export default function OpenaiForm({
     function update() {
         if (!openai) return;
 
-        router.post(
+        put(
             route('openai.update', openai.id),
-            { ...data, _method: 'PUT' },
             {
                 onSuccess: () => {
                     reset();

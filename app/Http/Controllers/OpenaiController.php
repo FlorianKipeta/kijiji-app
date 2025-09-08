@@ -102,7 +102,6 @@ class OpenaiController extends Controller
             'max_tokens' => $request->max_tokens,
             'key' => $request->key,
         ]);
-       dd($ab);
 
         return redirect()
             ->route('openai.index')
