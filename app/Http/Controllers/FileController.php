@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\File;
+use App\Models\OpenaiConfig;
 use App\Models\Project;
 use App\Services\FileConverterService;
 use Illuminate\Http\RedirectResponse;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Response;
 use Inertia\ResponseFactory;
+use OpenAI;
 
 class FileController extends Controller
 {
@@ -24,7 +26,7 @@ class FileController extends Controller
             'canDelete' => auth()->user()->can('delete files'),
         ]);
     }
-    public function store(Request $request, Project $project): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'file' => 'required|file|mimes:pdf,doc,docx,txt|max:10240', // only allowed types
@@ -40,39 +42,45 @@ class FileController extends Controller
         $safeName = Str::slug($originalName);
         $fileName = $safeName.'_'.time().'.txt';
 
-        $path = "project_files/{$project->id}/{$fileName}";
+        $path = "project_files/{$fileName}";
         Storage::disk('local')->put($path, $text);
 
         $absolutePath = storage_path("app/private/{$path}");
 
-//        $openAiFile = OpenAI::files()->upload([
-//            'file' => fopen($absolutePath, 'r'),
-//            'purpose' => 'assistants',
-//        ]);
-
-        if (! $project->vector_store) {
-//            $vectorStore = OpenAI::vectorStores()->create([
-//                'name' => "Project {$project->id} Store",
-//            ]);
-
-            $project->update(['vector_store' => $vectorStore->id]);
-        }
-
-//        OpenAI::vectorStores()->files()->create($project->vector_store, [
-//            'file_id' => $openAiFile->id,
-//        ]);
+        $openAiFile = $this->uploadFileToVectorStore($absolutePath);
 
         File::query()->create([
             'name' => $fileName, // converted .txt name
             'path' => $path,
-            'file_id' => $openAiFile->id,
+            'file_id' => $openAiFile,
             'size' => strlen($text),
-            'project_id' => $project->id,
             'created_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'File converted to TXT and uploaded successfully');
 
+    }
+
+    protected function uploadFileToVectorStore(string $path): string
+    {
+        $openAIConfig = OpenaiConfig::query()->first();
+
+        if (!$openAIConfig) {
+            return "No OpenAI configuration found.";
+        }
+        $openAIClient = OpenAI::client($openAIConfig->key);
+
+        $response = $openAIClient->files()->upload([
+            'file' => fopen($path, 'r'),
+            'purpose' => 'assistants',
+        ]);
+
+
+        $openAIClient->vectorStores()->files()->create($openAIConfig->vector_store, [
+            'file_id' => $response->id,
+        ]);
+
+        return $response->id;
     }
 
     public function destroy(File $file): RedirectResponse

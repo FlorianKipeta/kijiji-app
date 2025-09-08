@@ -5,50 +5,34 @@ import {ConfirmModal} from '@components/modals';
 import React, {useMemo, useState} from 'react'
 import {EyeIcon} from "@heroicons/react/24/solid/index.js";
 import {ServerSideTable} from "@components/table/ServerSideTable.jsx";
-import EditFile from "@pages/File/EditFile.jsx";
 
 export const FileTable = ({
-                                  fetchData,
-                                  pageCount,
-                                  files,
-                                  loading,
-                                  refetch,
-                                  canEdit,
-                                  canDelete
-                              }) => {
+                              fetchData,
+                              pageCount,
+                              files,
+                              loading,
+                              refetch,
+                              canDelete
+                          }) => {
 
-    const [showEditModal, setShowEditModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [file, setFile] = useState(null);
 
     const columns = useMemo(() => [
-
         {
-            Header: 'Client Name',
+            Header: 'Name',
             accessor: 'name',
-            Cell: ({value, row}) => {
-                return (
-                    <div className="flex items-center gap-x-3">
-                        <img src={row.original.image_path} loading="lazy" alt={''}
-                             className={`w-8 aspect-square bg-slate-500 rounded-full`}/>
-                        <div className="flex flex-col items-start flex-1">
-                            <span className="font-semibold">{value}</span>
-                        </div>
-                    </div>
-                )
+        },
+        {
+            Header: 'Size',
+            accessor: 'size',
+            Cell: ({value}) => {
+                return (value / 1024).toFixed(2) + ' KB';
             }
         },
         {
-            Header: 'Email',
-            accessor: 'email',
-        },
-        {
-            Header: 'Phone',
-            accessor: 'phone',
-        },
-        {
-            Header: 'Address',
-            accessor: 'address',
+            Header: 'OpenAI ID',
+            accessor: 'file_id',
         },
         {
             Header: 'Action',
@@ -56,19 +40,11 @@ export const FileTable = ({
             Cell: ({row}) => {
                 return (
                     <div>
-                        {/*<Link href={route('files.show', row.original.id)}>*/}
+                        {/*<Link href={route('files.show', row.original.slug)}>*/}
                         {/*    <PrimaryBadge>*/}
                         {/*        <EyeIcon className='w-4 mr-1.5'/>*/}
                         {/*    </PrimaryBadge>*/}
                         {/*</Link>*/}
-                        {
-                            canEdit &&
-                            <button onClick={() => showModal(row.original, 'edit')}>
-                                <PrimaryBadge>
-                                    <PencilSquareIcon className='w-4 mr-1.5'/>
-                                </PrimaryBadge>
-                            </button>
-                        }
                         {
                             canDelete &&
                             <button onClick={() => showModal(row.original, 'delete')}>
@@ -88,9 +64,6 @@ export const FileTable = ({
     function showModal(_file, actionType) {
         setFile(_file);
         switch (actionType) {
-            case 'edit':
-                setShowEditModal(true);
-                break;
             case 'delete':
                 setShowDeleteModal(true);
                 break;
@@ -116,7 +89,6 @@ export const FileTable = ({
             <ServerSideTable fetchData={fetchData} totalPages={pageCount} data={data} columns={columns}
                              loading={loading}/>
 
-            <EditFile show={showEditModal} setShow={setShowEditModal} file={file} refreshTable={refetch}/>
 
             <ConfirmModal
                 show={showDeleteModal}

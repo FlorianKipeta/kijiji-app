@@ -52,7 +52,7 @@ export default function Index({canCreate, canEdit, canDelete, canAddFileToGroups
                 }
             </div>
 
-            <Filters onApplyFilter={applyFilter} defaults={filters}/>
+            {/*<Filters onApplyFilter={applyFilter} defaults={filters}/>*/}
 
             <FileTable
                 refetch={refetch}

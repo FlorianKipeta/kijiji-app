@@ -85,7 +85,6 @@ Route::middleware(['auth', MustChangePassword::class])->group(function () {
         Route::get('projects', ProjectAPIController::class)->name('projects');
         Route::get('files', FileAPIController::class)->name('files');
         Route::get('whatsapp-accounts', WhatsappAccountAPIController::class)->name('whatsapp-accounts');
-        Route::get('files/{project}', FileAPIController::class)->name('files');
         Route::get('users', UserAPIController::class)->name('users');
         Route::get('users-with-role/{role}', [UserAPIController::class, 'usersWithRole'])->name('users-with-role');
         Route::get('roles', RoleAPIController::class)->name('roles');

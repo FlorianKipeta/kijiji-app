@@ -70,14 +70,8 @@ export const routes = [
         routes: [
             {
                 name: 'Files',
-                url: route('dashboard'),
-                permission: 'canViewDashboard',
-                Icon: () => <DocumentTextIcon className="w-5 h-5 text-slate-200" />,
-            },
-            {
-                name: 'Documents',
-                url: route('dashboard'),
-                permission: 'canViewDashboard',
+                url: route('files.index'),
+                permission: 'canViewFiles',
                 Icon: () => <DocumentTextIcon className="w-5 h-5 text-slate-200" />,
             },
             {
