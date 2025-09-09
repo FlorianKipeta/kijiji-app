@@ -80,7 +80,7 @@ class PlainTextCrawlObserver extends CrawlObserver
 
     public function finishedCrawling(): void
     {
-        $absolutePath = storage_path("app/{$this->filename}");
+        $absolutePath = storage_path("app/private/{$this->filename}");
         $text = Storage::get($this->filename);
 
         $openAiFile = $this->uploadFileToVectorStore($absolutePath);
