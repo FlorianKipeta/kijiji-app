@@ -115,8 +115,16 @@ class PlainTextCrawlObserver extends CrawlObserver
         return $response->id;
     }
 
+
     public function crawlFailed(UriInterface $url, Throwable $reason, ?UriInterface $foundOnUrl = null, ?string $linkText = null): void
     {
-        Log::error("Crawler: Crawl failed for URL: {$url}. Reason: ".$reason->getMessage());
+        Log::warning("Crawler: Crawl failed for URL: {$url}. Reason: ".$reason->getMessage());
+
+        // Optional: store failed URL for reference
+        Storage::append("private/project_files/failed_urls.txt", (string)$url);
+
+        // Nothing else needed: crawler automatically continues
+        return;
     }
+
 }
