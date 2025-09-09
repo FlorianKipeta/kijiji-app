@@ -39,7 +39,7 @@ class ProcessWebsiteCrawl implements ShouldQueue
         Storage::put($filename, "Crawl of {$this->url}\n\n".str_repeat('=', 50)."\n\n");
 
         Crawler::create()
-            ->setCrawlObserver(new PlainTextCrawlObserver($filename))
+            ->setCrawlObserver(new PlainTextCrawlObserver($this->url))
             ->setMaximumDepth(2)
             ->setTotalCrawlLimit(50)
             ->ignoreRobots()

@@ -11,36 +11,24 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\UriInterface;
 use Spatie\Browsershot\Browsershot;
 use Spatie\Crawler\CrawlObservers\CrawlObserver;
+use Symfony\Component\DomCrawler\Crawler;
 use Throwable;
 
 class PlainTextCrawlObserver extends CrawlObserver
 {
-    /** @var string The name of the output file. */
     protected string $filename;
-
-    /** @var array A list of URLs that have already been processed to prevent duplicates. */
     protected array $renderedUrls = [];
 
     public function __construct(string $url)
     {
-        // build safe filename like example.com.txt
         $host = parse_url($url, PHP_URL_HOST) ?? 'site';
         $host = str_replace([':', '/'], '_', $host);
 
         $this->filename = "private/project_files/{$host}.txt";
 
-        // create/overwrite the file with header
         Storage::put($this->filename, "=== Cloned site from {$url} ===\n\n");
     }
 
-    /**
-     * Called when a new page has been crawled.
-     *
-     * @param  UriInterface  $url  The URI of the page that was crawled.
-     * @param  ResponseInterface  $response  The response from the crawl.
-     * @param  UriInterface|null  $foundOnUrl  The URI where this link was found.
-     * @param  string|null  $linkText  The text of the link.
-     */
     public function crawled(
         UriInterface $url,
         ResponseInterface $response,
@@ -52,9 +40,11 @@ class PlainTextCrawlObserver extends CrawlObserver
         if (in_array($urlStr, $this->renderedUrls)) {
             return;
         }
+
         $this->renderedUrls[] = $urlStr;
 
         try {
+            // Get HTML
             try {
                 $html = Browsershot::url($urlStr)
                     ->timeout(60)
@@ -63,28 +53,34 @@ class PlainTextCrawlObserver extends CrawlObserver
                 $html = (string) $response->getBody();
             }
 
-            $plainText = strip_tags($html);
-            $plainText = preg_replace('/\s+/', ' ', $plainText);
-            $plainText = trim($plainText);
+            $crawler = new Crawler($html);
+
+            // Extract headings, paragraphs, lists
+            $content = [];
+
+            $crawler->filter('h1, h2, h3, h4, h5, h6, p, li')->each(function (Crawler $node) use (&$content) {
+                $text = trim($node->text());
+                if ($text) {
+                    $content[] = $text;
+                }
+            });
+
+            $plainText = implode("\n", $content);
 
             if (! empty($plainText)) {
                 Storage::append(
                     $this->filename,
-                    "URL: {$urlStr}\n\n{$plainText}\n\n".str_repeat('-', 50)."\n\n"
+                    "URL: {$urlStr}\n\n{$plainText}\n\n" . str_repeat('-', 50) . "\n\n"
                 );
             }
         } catch (Throwable $e) {
-            // log error
+            Log::error("Crawler: Failed to parse {$urlStr}. Reason: " . $e->getMessage());
         }
     }
 
-    /**
-     * Called when the crawl has finished.
-     */
     public function finishedCrawling(): void
     {
         $absolutePath = storage_path("app/{$this->filename}");
-
         $text = Storage::get($this->filename);
 
         $openAiFile = $this->uploadFileToVectorStore($absolutePath);
@@ -97,16 +93,14 @@ class PlainTextCrawlObserver extends CrawlObserver
             'created_by' => auth()->id() ?? 1,
         ]);
 
-        \Log::info("Crawler: Finished and exported {$this->filename}");
+        Log::info("Crawler: Finished and exported {$this->filename}");
     }
 
     protected function uploadFileToVectorStore(string $path): string
     {
         $openAIConfig = OpenAIConfig::query()->first();
+        if (!$openAIConfig) return 'No OpenAI configuration found.';
 
-        if (! $openAIConfig) {
-            return 'No OpenAI configuration found.';
-        }
         $openAIClient = OpenAI::client($openAIConfig->key);
 
         $response = $openAIClient->files()->upload([
@@ -121,14 +115,6 @@ class PlainTextCrawlObserver extends CrawlObserver
         return $response->id;
     }
 
-    /**
-     * Called when the crawl for a specific URL failed.
-     *
-     * @param  UriInterface  $url  The URL that failed to crawl.
-     * @param  Throwable  $reason  The reason for the failure.
-     * @param  UriInterface|null  $foundOnUrl  The URL where this link was found.
-     * @param  string|null  $linkText  The text of the link.
-     */
     public function crawlFailed(UriInterface $url, Throwable $reason, ?UriInterface $foundOnUrl = null, ?string $linkText = null): void
     {
         Log::error("Crawler: Crawl failed for URL: {$url}. Reason: ".$reason->getMessage());
