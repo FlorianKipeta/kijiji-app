@@ -32,7 +32,7 @@ export const WebsiteTable = ({
         },
         {
             Header: 'OpenAI ID',
-            accessor: 'website_id',
+            accessor: 'file_id',
         },
         {
             Header: 'Action',
