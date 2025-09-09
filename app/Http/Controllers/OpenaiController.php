@@ -95,7 +95,7 @@ class OpenaiController extends Controller
             $project->name
         );
 
-       $ab = $openai->update([
+        $ab = $openai->update([
             'model' => $request->model,
             'instructions' => $instructions,
             'temperature' => $request->temperature,

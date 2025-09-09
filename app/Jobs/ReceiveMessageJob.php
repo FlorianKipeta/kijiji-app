@@ -62,20 +62,20 @@ class ReceiveMessageJob extends ProcessWebhookJob
             throw new \InvalidArgumentException('Message type is missing');
         }
 
-        $this->processMessageType($messageType, $message, $customer,$phoneNumberID);
+        $this->processMessageType($messageType, $message, $customer, $phoneNumberID);
     }
 
-    private function processMessageType(string $messageType, array $message, Customer $customer,$phoneNumberID): void
+    private function processMessageType(string $messageType, array $message, Customer $customer, $phoneNumberID): void
     {
         match ($messageType) {
-            Message::TEXT_MESSAGE => $this->createTextMessage($customer, $message['text']['body'], $message['id'],$phoneNumberID),
-            Message::BUTTON_MESSAGE => $this->createTextMessage($customer, $message['button']['text'], $message['id'],$phoneNumberID),
-            Message::IMAGE_MESSAGE, Message::AUDIO_MESSAGE, Message::VIDEO_MESSAGE, Message::DOCUMENT_MESSAGE => $this->processMediaMessage($customer, $message,$phoneNumberID),
+            Message::TEXT_MESSAGE => $this->createTextMessage($customer, $message['text']['body'], $message['id'], $phoneNumberID),
+            Message::BUTTON_MESSAGE => $this->createTextMessage($customer, $message['button']['text'], $message['id'], $phoneNumberID),
+            Message::IMAGE_MESSAGE, Message::AUDIO_MESSAGE, Message::VIDEO_MESSAGE, Message::DOCUMENT_MESSAGE => $this->processMediaMessage($customer, $message, $phoneNumberID),
             default => throw new \InvalidArgumentException('Unknown message type: '.$messageType),
         };
     }
 
-    private function createTextMessage(Customer $customer, string $text, string $messageID,$phoneNumberID): void
+    private function createTextMessage(Customer $customer, string $text, string $messageID, $phoneNumberID): void
     {
         $message = Message::query()->create([
             'type' => 'text',
@@ -89,13 +89,13 @@ class ReceiveMessageJob extends ProcessWebhookJob
         $this->continueConversation($customer, $message, $phoneNumberID);
     }
 
-    private function processMediaMessage(Customer $customer, array $message,$phoneNumberID): void
+    private function processMediaMessage(Customer $customer, array $message, $phoneNumberID): void
     {
         //
     }
 
     private function continueConversation(Customer $customer, Message $message, $phoneNumberID): void
     {
-        WhatsAppService::sendWhatsAppMessage($customer, $message,$phoneNumberID);
+        WhatsAppService::sendWhatsAppMessage($customer, $message, $phoneNumberID);
     }
 }

@@ -17,6 +17,7 @@ class WhatsAppService
         $openAIConfig = self::getOpenAIConfig();
         if (! $openAIConfig) {
             Log::warning('OpenAI config not found, skipping WhatsApp message.');
+
             return;
         }
 
@@ -25,6 +26,7 @@ class WhatsAppService
 
             if (empty($responseText)) {
                 Log::warning('OpenAI returned empty response, skipping WhatsApp message.', ['message' => $message->text]);
+
                 return;
             }
 
@@ -83,22 +85,24 @@ class WhatsAppService
 
         if (! $whatsAppConfig) {
             Log::warning('WhatsApp account configuration not found.', ['phone_number_id' => $phoneNumberID]);
+
             return;
         }
 
-        $token = 'Bearer ' . $whatsAppConfig->access_token;
+        $token = 'Bearer '.$whatsAppConfig->access_token;
         $endpoint = config('services.whatsapp.api_endpoint');
 
         $cleanPhone = preg_replace('/\+/', '', $customer->phone);
         if (empty($cleanPhone)) {
             Log::warning('Invalid customer phone number, cannot send WhatsApp message.', ['customer_id' => $customer->id]);
+
             return;
         }
 
         Log::debug('Sending WhatsApp message', [
             'endpoint' => $endpoint,
             'to' => $cleanPhone,
-            'message_preview' => substr($messageText, 0, 50) . '...'
+            'message_preview' => substr($messageText, 0, 50).'...',
         ]);
 
         try {
