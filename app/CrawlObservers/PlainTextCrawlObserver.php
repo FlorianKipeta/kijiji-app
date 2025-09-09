@@ -86,7 +86,7 @@ class PlainTextCrawlObserver extends CrawlObserver
         $openAiFile = $this->uploadFileToVectorStore($absolutePath);
 
         Website::query()->create([
-            'name' => basename($this->filename),
+            'name' => str_replace('.txt', '', basename($this->filename)),
             'path' => $absolutePath,
             'file_id' => $openAiFile,
             'size' => strlen($text),
