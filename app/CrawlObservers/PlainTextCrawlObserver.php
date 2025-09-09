@@ -44,7 +44,6 @@ class PlainTextCrawlObserver extends CrawlObserver
         $this->renderedUrls[] = $urlStr;
 
         try {
-            // Get HTML
             try {
                 $html = Browsershot::url($urlStr)
                     ->timeout(60)
@@ -55,10 +54,9 @@ class PlainTextCrawlObserver extends CrawlObserver
 
             $crawler = new Crawler($html);
 
-            // Extract headings, paragraphs, lists
             $content = [];
 
-            $crawler->filter('h1, h2, h3, h4, h5, h6, p, li')->each(function (Crawler $node) use (&$content) {
+            $crawler->filter('h1, h2, h3, h4, h5, h6, p, li, span, div, table tr, th, td, article, section, header, footer, nav, main')->each(function (Crawler $node) use (&$content) {
                 $text = trim($node->text());
                 if ($text) {
                     $content[] = $text;
@@ -120,10 +118,8 @@ class PlainTextCrawlObserver extends CrawlObserver
     {
         Log::warning("Crawler: Crawl failed for URL: {$url}. Reason: ".$reason->getMessage());
 
-        // Optional: store failed URL for reference
         Storage::append("private/project_files/failed_urls.txt", (string)$url);
 
-        // Nothing else needed: crawler automatically continues
         return;
     }
 
