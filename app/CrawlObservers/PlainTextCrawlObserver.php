@@ -17,6 +17,7 @@ use Throwable;
 class PlainTextCrawlObserver extends CrawlObserver
 {
     protected string $filename;
+
     protected array $renderedUrls = [];
 
     public function __construct(string $url)
@@ -68,11 +69,11 @@ class PlainTextCrawlObserver extends CrawlObserver
             if (! empty($plainText)) {
                 Storage::append(
                     $this->filename,
-                    "URL: {$urlStr}\n\n{$plainText}\n\n" . str_repeat('-', 50) . "\n\n"
+                    "URL: {$urlStr}\n\n{$plainText}\n\n".str_repeat('-', 50)."\n\n"
                 );
             }
         } catch (Throwable $e) {
-            Log::error("Crawler: Failed to parse {$urlStr}. Reason: " . $e->getMessage());
+            Log::error("Crawler: Failed to parse {$urlStr}. Reason: ".$e->getMessage());
         }
     }
 
@@ -97,7 +98,9 @@ class PlainTextCrawlObserver extends CrawlObserver
     protected function uploadFileToVectorStore(string $path): string
     {
         $openAIConfig = OpenAIConfig::query()->first();
-        if (!$openAIConfig) return 'No OpenAI configuration found.';
+        if (! $openAIConfig) {
+            return 'No OpenAI configuration found.';
+        }
 
         $openAIClient = OpenAI::client($openAIConfig->key);
 
@@ -113,14 +116,11 @@ class PlainTextCrawlObserver extends CrawlObserver
         return $response->id;
     }
 
-
     public function crawlFailed(UriInterface $url, Throwable $reason, ?UriInterface $foundOnUrl = null, ?string $linkText = null): void
     {
         Log::warning("Crawler: Crawl failed for URL: {$url}. Reason: ".$reason->getMessage());
 
-        Storage::append("private/project_files/failed_urls.txt", (string)$url);
+        Storage::append('private/project_files/failed_urls.txt', (string) $url);
 
-        return;
     }
-
 }
