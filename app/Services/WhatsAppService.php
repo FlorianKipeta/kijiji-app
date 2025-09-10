@@ -90,7 +90,7 @@ class WhatsAppService
         }
 
         $token = 'Bearer '.$whatsAppConfig->access_token;
-        $endpoint = config('services.whatsapp.api_endpoint');
+        $endpoint = 'https://graph.facebook.com/v23.0/'.$phoneNumberID.'/messages';
 
         $cleanPhone = preg_replace('/\+/', '', $customer->phone);
         if (empty($cleanPhone)) {

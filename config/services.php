@@ -41,8 +41,4 @@ return [
         'redirect_uri' => env('FACEBOOK_REDIRECT_URI'),
     ],
 
-    'whatsapp' => [
-        'api_endpoint' => env('WHATSAPP_API_ENDPOINT'),
-    ],
-
 ];
